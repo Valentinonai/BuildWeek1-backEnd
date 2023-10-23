@@ -2,6 +2,7 @@ package BuildWeek1.entities;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -24,7 +25,7 @@ public class User {
 
     @ManyToMany
     @JoinTable(name = "users_mezzi", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "mezzo_id"))
-    private Set<Mezzi> mezzo;
+    private Set<Mezzo> mezzo;
 
     public User() {
     }
