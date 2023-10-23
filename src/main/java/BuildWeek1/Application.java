@@ -35,11 +35,13 @@ public class Application {
                         int risp2 = Integer.parseInt(scanner.nextLine());
                         switch (risp2) {
                             case 1: {
-                                userDao.save(new User(email, password, true));
+                                user = new User(email, password, true);
+                                userDao.save(user);
                                 break;
                             }
                             case 2: {
-                                userDao.save(new User(email, password, false));
+                                user = new User(email, password, false);
+                                userDao.save(user);
                                 break;
                             }
                         }
