@@ -1,6 +1,7 @@
 package BuildWeek1.entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "vendita_biglietti")

@@ -17,7 +17,7 @@ public class Application {
         EntityManager em = emf.createEntityManager();
         boolean bool = false;
         UserDao userDao = new UserDao(em);
-        User user;
+        User user = null;
 
         try {
             ExitCiclo:
@@ -61,7 +61,7 @@ public class Application {
                         break;
                 }
             }
-            if (user.getAdmin() == true) {
+            if (user.getAdmin() == true && user != null) {
 
             } else {
                 ExitCiclo:
