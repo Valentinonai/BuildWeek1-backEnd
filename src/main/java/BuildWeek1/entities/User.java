@@ -5,6 +5,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
+@NamedQuery(name = "findByEmailAndPassword", query = "SELECT u FROM User u WHERE u.email=:email AND u.password=:password")
 public class User {
     @Id
     @GeneratedValue
@@ -22,8 +23,8 @@ public class User {
     private List<Ticket> ticketList;
 
     @ManyToMany
-    @JoinTable(name = "users_mezzi", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "mezzo_id"))
-    private Set<Mezzo> mezzo;
+    @JoinTable(name = "users_mezzi", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "mezzi_id"))
+    private Set<Mezzi> mezzo;
 
     public User() {
     }
@@ -80,5 +81,13 @@ public class User {
                 ", ticketList=" + ticketList +
                 ", mezzo=" + mezzo +
                 '}';
+    }
+
+    public Boolean getAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
     }
 }

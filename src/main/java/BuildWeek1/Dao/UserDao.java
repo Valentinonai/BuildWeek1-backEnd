@@ -4,6 +4,7 @@ import BuildWeek1.entities.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 public class UserDao {
     private EntityManager em;
@@ -44,5 +45,12 @@ public class UserDao {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public User findByUserAndEmail(String email, String password) {
+        TypedQuery<User> q = em.createNamedQuery("findByEmailAndPassword", User.class);
+        q.setParameter("email", email);
+        q.setParameter("password", password);
+        return q.getSingleResult();
     }
 }
