@@ -122,7 +122,7 @@ private List<LocalDate> dataInizioManutenzione;
         this.dataFineServizio.add(dataFineServizio);
     }
 
-    public Mezzo(long id, boolean inManutenzione, long tempoManutenzione, boolean inServizio, List<LocalDate> dataInizioManutenzione, List<LocalDate> dataFineManutenzione, List<LocalDate> dataInizioServizio, List<LocalDate> dataFineServizio) {
+    public Mezzo(long id, boolean inManutenzione, long tempoManutenzione,boolean inServizio, List<LocalDate> dataInizioManutenzione, List<LocalDate> dataFineManutenzione, List<LocalDate> dataInizioServizio, List<LocalDate> dataFineServizio) {
         this.id = id;
         this.inManutenzione = inManutenzione;
         this.tempoManutenzione = tempoManutenzione;
