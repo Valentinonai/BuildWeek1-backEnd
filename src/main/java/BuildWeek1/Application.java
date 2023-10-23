@@ -15,11 +15,6 @@ public class Application {
 
     public static void main(String[] args) {
         EntityManager em = emf.createEntityManager();
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> tommaso
         boolean bool = false;
         UserDao userDao = new UserDao(em);
         User user;
@@ -35,11 +30,8 @@ public class Application {
                         String email = scanner.nextLine();
                         System.out.println("inserisci password");
                         String password = scanner.nextLine();
-<<<<<<< HEAD
                         System.out.println("sei un amministratore?(1:true 2:fasle)");
-=======
                         System.out.println("sei un amministratore?(1:true 2:false)");
->>>>>>> tommaso
                         int risp2 = Integer.parseInt(scanner.nextLine());
                         switch (risp2) {
                             case 1: {
