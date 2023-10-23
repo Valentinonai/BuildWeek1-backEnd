@@ -44,13 +44,11 @@ public class Mezzo {
     private Set<Tratta> tratta;
 
 
-    public Mezzo() {
-    }
 
-    public Mezzo(long id, boolean inManutenzione, boolean inServizio, List<LocalDate> dataInizioServizio, List<LocalDate> dataFineServizio) {
-        this.id = id;
-        this.inManutenzione = inManutenzione;
-        this.inServizio = inServizio;
+
+    public Mezzo() {
+        this.inManutenzione =false;
+        this.inServizio = true;
 
     }
 

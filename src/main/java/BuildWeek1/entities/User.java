@@ -98,7 +98,6 @@ public class User {
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", tessera=" + tessera +
                 ", isAdmin=" + isAdmin +
                 ", ticketList=" + ticketList +
                 ", mezzo=" + mezzo +

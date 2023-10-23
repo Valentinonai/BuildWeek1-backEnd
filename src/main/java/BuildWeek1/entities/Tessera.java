@@ -20,9 +20,10 @@ public class Tessera {
     public Tessera() {
     }
 
-    public Tessera( LocalDate dataEmissione) {
+    public Tessera( LocalDate dataEmissione,User user) {
         this.dataEmissione = dataEmissione;
         this.dataScadenza = dataEmissione.plusDays(365);
+        this.user=user;
     }
 
     public long getCodiceTessera() {

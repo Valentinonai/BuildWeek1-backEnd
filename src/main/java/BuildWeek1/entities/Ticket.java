@@ -20,6 +20,7 @@ public class Ticket {
     private LocalDateTime dataScadenza;
 
     @Column(name = "tipo")
+    @Enumerated(EnumType.STRING)
     private TicketType tipo;
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -38,25 +39,12 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(LocalDate dataEmissione, VenditaBiglietto venditabiglietto, TicketType tipo) {
-        if (dataEmissione != null && !dataEmissione.isAfter(LocalDate.now())
-                && venditabiglietto != null && tipo != null) {
-            this.dataEmissione = dataEmissione;
-            this.tipo = tipo;
-        }
-        throw new IllegalArgumentException("la data di emissione del titolo di trasporto non può essere nulla nè oltre la data di oggi" +
-                " inoltre deve essere collegata ad un'user e un punto vendita esistente ");
-    }
 
-    public Ticket(LocalDate dataEmissione, User user, VenditaBiglietto venditabiglietto, TicketType tipo) {
-        if (dataEmissione != null && !dataEmissione.isAfter(LocalDate.now()) && user != null
-                && venditabiglietto != null && tipo != null) {
-            this.dataEmissione = dataEmissione;
-            this.user = user;
-            this.tipo = tipo;
-        }
-        throw new IllegalArgumentException("la data di emissione del titolo di trasporto non può essere nulla nè oltre la data di oggi" +
-                " inoltre deve essere collegata ad un'user e un punto vendita esistente ");
+    public Ticket(LocalDate dataEmissione, TicketType tipo, User user, VenditaBiglietto venditabiglietto) {
+        this.dataEmissione = dataEmissione;
+        this.tipo = tipo;
+        this.user = user;
+        this.venditabiglietto = venditabiglietto;
     }
 
     public long getId() {
@@ -73,7 +61,8 @@ public class Ticket {
         return dataValidazione;
     }
 
-    public void setDataValidazione(LocalDate dataValidazione) {
+    public void setDataValidazione(LocalDateTime dataValidazione) {
+        this.dataValidazione= dataValidazione;
         switch (tipo) {
             case SINGLERIDE -> this.dataScadenza = getDataValidazione().plus(Duration.ofMinutes(90));
 
