@@ -15,6 +15,8 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "admin")
+    private Boolean isAdmin;
     @OneToMany(mappedBy = "user")
     @Column(name = "ticketList")
     private List<Ticket> ticketList;
@@ -26,9 +28,10 @@ public class User {
     public User() {
     }
 
-    public User(String email, String password) {
+    public User(String email, String password, Boolean admin) {
         this.email = email;
         this.password = password;
+        this.isAdmin = admin;
     }
 
     public long getId() {
