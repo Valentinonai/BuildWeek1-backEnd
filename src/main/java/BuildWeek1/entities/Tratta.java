@@ -1,6 +1,7 @@
 package BuildWeek1.entities;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "tratte")
@@ -19,7 +20,7 @@ public class Tratta {
             joinColumns = @JoinColumn(name = "tratta_id"),
             inverseJoinColumns = @JoinColumn(name = "mezzi_id")
     )
-    private Set<Mezzi> mezzo;
+    private Set<Mezzo> mezzo;
 
     @ManyToMany
     @JoinTable(
@@ -30,8 +31,8 @@ public class Tratta {
     private Set<Ticket> tickets;
 
 
-
-    public Tratta(){}
+    public Tratta() {
+    }
 
     public Tratta(long id, String zonaPartenza, String capolinea, long tempoStimato, long tempoEffettivo) {
         this.id = id;

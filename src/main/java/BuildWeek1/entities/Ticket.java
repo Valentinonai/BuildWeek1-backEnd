@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "ticket")
