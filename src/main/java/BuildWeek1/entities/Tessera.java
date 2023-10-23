@@ -7,6 +7,7 @@ import java.time.LocalDate;
 @Table(name = "tessera")
 public class Tessera {
     @Id
+    @GeneratedValue
     @Column(name = "codice_tessera")
     private long codiceTessera;
     @Column(name = "data_emissione", nullable = false)
@@ -14,7 +15,7 @@ public class Tessera {
     private LocalDate dataScadenza;
     @OneToOne
     @JoinColumn(name = "user_id")
-    private User userTessera;
+    private User user;
 
     public Tessera() {
     }
@@ -47,7 +48,7 @@ public class Tessera {
                 "codiceTessera='" + codiceTessera + '\'' +
                 ", dataEmissione=" + dataEmissione +
                 ", dataScadenza=" + dataScadenza +
-                ", userTessera=" + userTessera +
+                ", userTessera=" + user +
                 '}';
     }
 }
