@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "ticket")
-public abstract class Ticket {
+public class Ticket {
     @Id
     @GeneratedValue
     private long id;
