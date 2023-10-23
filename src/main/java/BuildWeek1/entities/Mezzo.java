@@ -124,4 +124,47 @@ public class Mezzo {
     public void setDataFineServizio(LocalDate dataFineServizio) {
         this.dataFineServizio.add(dataFineServizio);
     }
+
+    public Set<User> getUser() {
+        return user;
+    }
+
+    public void setUser(Set<User> user) {
+        this.user = user;
+    }
+
+    public Set<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Set<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    public Set<Tratta> getTratta() {
+        return tratta;
+    }
+
+    public void setTratta(Set<Tratta> tratta) {
+        this.tratta = tratta;
+    }
+
+    @Override
+    public String toString() {
+        return "Mezzo{" +
+                "id=" + id +
+                ", tipoMezzo=" + tipoMezzo +
+                ", numeroPosti=" + numeroPosti +
+                ", inManutenzione=" + inManutenzione +
+                ", tempoManutenzione=" + tempoManutenzione +
+                ", inServizio=" + inServizio +
+                ", user=" + user +
+                ", dataInizioManutenzione=" + dataInizioManutenzione +
+                ", tickets=" + tickets +
+                ", tratta=" + tratta +
+                ", dataFineManutenzione=" + dataFineManutenzione +
+                ", dataInizioServizio=" + dataInizioServizio +
+                ", dataFineServizio=" + dataFineServizio +
+                '}';
+    }
 }

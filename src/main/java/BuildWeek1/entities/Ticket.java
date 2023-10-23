@@ -82,6 +82,22 @@ public class Ticket {
         return venditabiglietto;
     }
 
+    public LocalDateTime getDataScadenza() {
+        return dataScadenza;
+    }
+
+    public TicketType getTipo() {
+        return tipo;
+    }
+
+    public Set<Mezzo> getMezzi() {
+        return mezzi;
+    }
+
+    public void setMezzi(Set<Mezzo> mezzi) {
+        this.mezzi = mezzi;
+    }
+
     @Override
     public String toString() {
         return "Ticket{" +
