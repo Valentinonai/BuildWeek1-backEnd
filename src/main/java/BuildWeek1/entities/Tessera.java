@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class Tessera {
     @Id
     @Column(name = "codice_tessera")
-    private String codiceTessera;
+    private long codiceTessera;
     @Column(name = "data_emissione", nullable = false)
     private LocalDate dataEmissione;
     private LocalDate dataScadenza;
@@ -19,13 +19,12 @@ public class Tessera {
     public Tessera() {
     }
 
-    public Tessera(String codiceTessera, LocalDate dataEmissione) {
-        this.codiceTessera = codiceTessera;
+    public Tessera( LocalDate dataEmissione) {
         this.dataEmissione = dataEmissione;
         this.dataScadenza = dataEmissione.plusDays(365);
     }
 
-    public String getCodiceTessera() {
+    public long getCodiceTessera() {
         return codiceTessera;
     }
 

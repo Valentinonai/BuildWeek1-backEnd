@@ -64,8 +64,8 @@ public class User {
         return ticketList;
     }
 
-    public void setTicketList(List<Ticket> ticketList) {
-        this.ticketList = ticketList;
+    public void setTicketList(Ticket ticket) {
+        this.ticketList.add(ticket);
     }
 
     public Set<Mezzo> getMezzo() {

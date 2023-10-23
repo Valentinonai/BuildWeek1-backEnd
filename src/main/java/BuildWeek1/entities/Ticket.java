@@ -84,6 +84,14 @@ public class Ticket {
         }
     }
 
+    public void setVenditabiglietto(VenditaBiglietto venditabiglietto) {
+        this.venditabiglietto = venditabiglietto;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public User getUser() {
         return user;
     }
