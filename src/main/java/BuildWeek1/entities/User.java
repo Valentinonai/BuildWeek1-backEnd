@@ -23,7 +23,7 @@ public class User {
     private List<Ticket> ticketList;
 
     @ManyToMany
-    @JoinTable(name = "users_mezzi", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "mezzi_id"))
+    @JoinTable(name = "users_mezzi", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "mezzo_id"))
     private Set<Mezzi> mezzo;
 
     public User() {
