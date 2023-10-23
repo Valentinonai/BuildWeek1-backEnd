@@ -38,6 +38,16 @@ public class Ticket {
     public Ticket() {
     }
 
+    public Ticket(LocalDate dataEmissione, VenditaBiglietto venditabiglietto, TicketType tipo) {
+        if (dataEmissione != null && !dataEmissione.isAfter(LocalDate.now())
+                && venditabiglietto != null && tipo != null) {
+            this.dataEmissione = dataEmissione;
+            this.tipo = tipo;
+        }
+        throw new IllegalArgumentException("la data di emissione del titolo di trasporto non può essere nulla nè oltre la data di oggi" +
+                " inoltre deve essere collegata ad un'user e un punto vendita esistente ");
+    }
+
     public Ticket(LocalDate dataEmissione, User user, VenditaBiglietto venditabiglietto, TicketType tipo) {
         if (dataEmissione != null && !dataEmissione.isAfter(LocalDate.now()) && user != null
                 && venditabiglietto != null && tipo != null) {
@@ -69,7 +79,7 @@ public class Ticket {
 
             case WEEKLY -> this.dataScadenza = getDataValidazione().plusDays(7);
             case MONTHLY -> this.dataScadenza = getDataValidazione().plusDays(30);
-            case YEARLY -> this.dataScadenza = getDataValidazione().plusDays(365);
+
 
         }
     }

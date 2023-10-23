@@ -1,7 +1,5 @@
 package BuildWeek1;
 
-import BuildWeek1.Dao.TrattaDAO;
-import BuildWeek1.entities.Tratta;
 import BuildWeek1.Dao.UserDao;
 import BuildWeek1.entities.User;
 
@@ -21,7 +19,7 @@ public class Application {
         UserDao userDao = new UserDao(em);
         User user = null;
 
-        try {
+     /*   try {
             ExitCiclo:
             while (true) {
                 System.out.println("1:SignUp 2:LogIn");
@@ -93,7 +91,7 @@ public class Application {
             System.err.println("Non hai inserito un valore valido");
         } catch (Exception e) {
             System.err.println(e.getMessage());
-        }
+        }*/
 
     }
 }

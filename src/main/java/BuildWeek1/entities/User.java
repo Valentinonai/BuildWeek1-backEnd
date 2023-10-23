@@ -17,6 +17,9 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @OneToOne(mappedBy = "userTessera")
+    private Tessera tessera;
+
     @Column(name = "admin")
     private Boolean isAdmin;
     @OneToMany(mappedBy = "user")
@@ -73,15 +76,12 @@ public class User {
         this.mezzo = mezzo;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", ticketList=" + ticketList +
-                ", mezzo=" + mezzo +
-                '}';
+    public Tessera getTessera() {
+        return tessera;
+    }
+
+    public void setTessera(Tessera tessera) {
+        this.tessera = tessera;
     }
 
     public Boolean getAdmin() {
@@ -90,5 +90,18 @@ public class User {
 
     public void setAdmin(Boolean admin) {
         isAdmin = admin;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", tessera=" + tessera +
+                ", isAdmin=" + isAdmin +
+                ", ticketList=" + ticketList +
+                ", mezzo=" + mezzo +
+                '}';
     }
 }
