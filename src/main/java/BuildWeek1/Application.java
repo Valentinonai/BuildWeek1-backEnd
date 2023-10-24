@@ -38,12 +38,19 @@ public class Application {
         VenditaBiglietto vb3 = new VenditaBiglietto(true, TipoVendita.DISTRIBUTORE_AUTOMATICO);
         vbdao.save(vb3); */
 
-        // System.out.println(ticketDao.getTotalTicketInTimeRange(LocalDate.now(), LocalDate.now().plusWeeks(3)));
-        List<Object[]> results = ticketDao.getTotalTicketInTimeRangeGroupedByType(LocalDate.now(), LocalDate.now().plusWeeks(2));
-        for (Object[] result : results) {
+
+        List<Object[]> ticketRange = ticketDao.getTotalTicketInTimeRangeGroupedByType(LocalDate.now(), LocalDate.now().plusWeeks(2));
+        for (Object[] result : ticketRange) {
             TicketType tipo = (TicketType) result[0];
             Long total = (Long) result[1];
             System.out.println("Tipo: " + tipo.name() + ", Totale: " + total);
+        }
+
+        List<Object[]> ticketTipoVendita = ticketDao.getTicketsSoldByTipoVendita();
+        for (Object[] result : ticketTipoVendita) {
+            TipoVendita tipoVendita = (TipoVendita) result[0];
+            Long total = (Long) result[1];
+            System.out.println("Tipo Vendita: " + tipoVendita + ", Totale: " + total);
         }
 
 

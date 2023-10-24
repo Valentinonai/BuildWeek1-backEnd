@@ -61,15 +61,12 @@ public class TicketDao {
         return getByTime.getResultList();
     }
 
+    public List<Object[]> getTicketsSoldByTipoVendita() {
+        Query query = em.createQuery("SELECT t.venditabiglietto.tipoVendita , COUNT(t) " +
+                "FROM Ticket t  " +
+                "GROUP BY t.venditabiglietto.tipoVendita");
+        return query.getResultList();
+    }
 
-   /* public long getTotalTicketInTimeRange(LocalDate startDate, LocalDate endDate) {
-        Query getByTime = em.createQuery("SELECT COUNT(t) as total " +
-                " FROM Ticket t" +
-                " WHERE t.dataEmissione BETWEEN :startDate AND :endDate");
-        getByTime.setParameter("startDate", startDate);
-        getByTime.setParameter("endDate", endDate);
-
-        return (long) getByTime.getSingleResult();
-    }*/
 
 }
