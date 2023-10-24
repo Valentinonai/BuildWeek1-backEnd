@@ -104,7 +104,7 @@ public class Application {
                     int risp=Integer.parseInt(scanner.nextLine());
                     switch (risp){
                         case 1->{
-                              mezzoDao.save(new Mezzo());
+//                              mezzoDao.save(new Mezzo());
                         }
                         case 2->{}
                     }
@@ -152,7 +152,7 @@ public class Application {
                         else {
 
                             Tessera tessera = user.getTessera();
-                            if(tessera.getDataScadenza().isAfter(LocalDate.now()))
+                            if(tessera.getDataScadenza().isBefore(LocalDate.now()))
                             {
                                 System.out.println("1:acquista singleride 2:rinnova tessera 3: esci");
                                 int risp = Integer.parseInt(scanner.nextLine());
@@ -160,8 +160,10 @@ public class Application {
                                     Ticket t = new Ticket(LocalDate.now(), TicketType.SINGLERIDE, user, vbdao.getById(10));
                                     ticketDao.save(t);
                                 } else if (risp == 2) {
-                                    Tessera tesse = new Tessera(LocalDate.now(), user);
-                                    tesseraDao.save(tesse);
+                                  tessera.setDataScadenza(LocalDate.now().plusDays(365));
+                                    tesseraDao.save(tessera);
+                                    System.out.println("Tessera rinnovata");
+                                    em.refresh(tessera);
                                     System.out.println("1:acquista singleride 2:acquista settimanale 3:acquista mensile");
                                     int risp2 = Integer.parseInt(scanner.nextLine());
                                     switch (risp2) {
