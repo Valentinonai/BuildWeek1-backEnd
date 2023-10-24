@@ -22,6 +22,7 @@ public class Mezzo {
     private boolean inManutenzione;
     @Column(name = "in_servizio")
     private boolean inServizio;
+
     @ManyToMany
     @JoinTable(name = "user_mezzi", joinColumns = @JoinColumn(name = "mezzo_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> user;
@@ -43,14 +44,19 @@ public class Mezzo {
             inverseJoinColumns = @JoinColumn(name = "tratta_id"))
     private Set<Tratta> tratta;
 
-
-
-
     public Mezzo() {
-        this.inManutenzione =false;
-        this.inServizio = true;
 
     }
+
+    public Mezzo(TipoMezzo tipoMezzo, long numeroPosti, boolean inManutenzione, boolean inServizio) {
+        this.tipoMezzo = tipoMezzo;
+        this.numeroPosti = numeroPosti;
+        this.inManutenzione = inManutenzione;
+        this.inServizio = inServizio;
+
+
+    }
+
 
     public long getId() {
         return id;
@@ -61,7 +67,14 @@ public class Mezzo {
     }
 
     public void setInManutenzione(boolean inManutenzione) {
-        this.inManutenzione = inManutenzione;
+        if (inServizio ) {
+            this.inServizio=false;
+            this.inManutenzione = inManutenzione;
+            System.out.println("Il veicolo è stato messo in manutenzione.");
+        }else {
+            this.inManutenzione = inManutenzione;
+        }
+
     }
 
 
@@ -70,9 +83,31 @@ public class Mezzo {
     }
 
     public void setInServizio(boolean inServizio) {
-        this.inServizio = inServizio;
+        if (inManutenzione ) {
+
+            System.err.println("Il veicolo è ora in manutenzione e non può essere in servizio.");
+
+        }else{ this.inServizio = inServizio;}
+
     }
 
+    public void setManutenzione(List<Manutenzione> manutenzione) {
+        this.manutenzione=manutenzione;
+
+
+    }
+
+    public void setNumeroPosti(long numeroPosti) {
+        this.numeroPosti = numeroPosti;
+    }
+
+    public void setServizi(List<Servizio> servizi) {
+        this.servizi = servizi;
+    }
+
+    public void setTipoMezzo(TipoMezzo tipoMezzo) {
+        this.tipoMezzo = tipoMezzo;
+    }
 
     public Set<User> getUser() {
         return user;

@@ -16,10 +16,20 @@ import java.util.Set;
 public class Application {
 
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("EntityManagerFactory");
-    private static final Scanner scanner = new Scanner(System.in);
+
 
     public static void main(String[] args) {
         EntityManager em = emf.createEntityManager();
+
+
+
+
+
+
+
+        final Scanner scanner = new Scanner(System.in);
+
+
         boolean bool = false;
         UserDao userDao = new UserDao(em);
         User user = null;
@@ -30,6 +40,24 @@ public class Application {
         Set<String> emailSet=new HashSet<>();
 
 
+
+
+        Mezzo nuovoMezzo = new Mezzo(TipoMezzo.TRAM, 34, false, false);
+
+        nuovoMezzo.setInManutenzione(true);
+        //mezzoDao.save(nuovoMezzo);
+        System.out.println(nuovoMezzo);
+
+
+
+
+
+
+
+
+        int mezziDisponibili = mezzoDao.findMezziDisponibili();
+        System.out.println("Numero di mezzi disponibili: " + mezziDisponibili);
+
        /* VenditaBiglietto vb=new VenditaBiglietto(true,TipoVendita.RIVENDITORE);
         vbdao.save(vb);
         VenditaBiglietto vb1=new VenditaBiglietto(true,TipoVendita.RIVENDITORE);
@@ -38,6 +66,12 @@ public class Application {
         vbdao.save(vb2);
         VenditaBiglietto vb3=new VenditaBiglietto(true,TipoVendita.DISTRIBUTORE_AUTOMATICO);
         vbdao.save(vb3);*/
+
+
+
+
+
+
         emailSet.addAll(userDao.getAllUsers());
         try {
             ExitCiclo:
@@ -199,4 +233,5 @@ public class Application {
         }
 
     }
+
 }

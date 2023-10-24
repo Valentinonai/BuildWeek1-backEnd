@@ -5,6 +5,11 @@ import BuildWeek1.entities.Tessera;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 public class MezzoDao {
 
@@ -48,6 +53,70 @@ public class MezzoDao {
                 System.out.println(e.getMessage());
             }
         }
+    public int findMezziDisponibili() {
+
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+            Root<Mezzo> root = cq.from(Mezzo.class);
+
+
+            Predicate disponibileCondition = cb.and(
+                    cb.isFalse(root.get("inManutenzione")),
+                    cb.isFalse(root.get("inServizio"))
+            );
+
+            cq.select(cb.count(root));
+            cq.where(disponibileCondition);
+
+            TypedQuery<Long> query = em.createQuery(cq);
+            Long result = query.getSingleResult();
+
+            return result != null ? result.intValue() : 0;
+        } finally {
+            em.close();
+        }
+Mezzo mezzo = new Mezzo()
+        public void setMezzoInServizio(Mezzo mezzo) {
+            EntityTransaction transaction = em.getTransaction();
+            try {
+                transaction.begin();
+
+                mezzo.setInServizio(true);
+                mezzo.setInManutenzione(false);
+
+                em.merge(mezzo);
+
+                transaction.commit();
+            } catch (Exception e) {
+                if (transaction != null && transaction.isActive()) {
+                    transaction.rollback();
+                }
+                e.printStackTrace();
+            }
+        }
+
+        public void setMezzoInManutenzione(Mezzo mezzo) {
+            EntityTransaction transaction = em.getTransaction();
+            try {
+                transaction.begin();
+
+                mezzo.setInServizio(false);
+                mezzo.setInManutenzione(true);
+
+                em.merge(mezzo);
+
+                transaction.commit();
+            } catch (Exception e) {
+                if (transaction != null && transaction.isActive()) {
+                    transaction.rollback();
+                }
+                e.printStackTrace();
+            }
+        }
+
+
+    }
 
 
     }
