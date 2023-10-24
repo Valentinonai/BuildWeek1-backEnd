@@ -31,7 +31,7 @@ public class User {
     private List<Ticket> ticketList;
 
     @ManyToMany
-    @JoinTable(name = "users_mezzi", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "mezzo_id"))
+    @JoinTable(name = "user_mezzi", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "mezzo_id"))
     private Set<Mezzo> mezzo;
 
     public User() {
@@ -104,7 +104,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", isAdmin=" + isAdmin +
                 ", ticketList=" + ticketList +
-                ", mezzo=" + mezzo +
+
                 '}';
     }
 }

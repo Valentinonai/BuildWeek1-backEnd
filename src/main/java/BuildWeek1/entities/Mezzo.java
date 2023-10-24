@@ -82,8 +82,9 @@ public class Mezzo {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user.add(user);
+    public void setUser(User user) throws Exception {
+       if(this.user.add(user)) System.out.println("Utente aggiunto");
+       else throw new Exception("Utente già sul mezzo");
     }
 
     public Set<Ticket> getTickets() {
@@ -104,6 +105,7 @@ public class Mezzo {
 
     public void eliminaUtente(User user){
         this.user.remove(user);
+        System.out.println("Utente scaricato");
     }
     @Override
     public String toString() {
@@ -113,7 +115,6 @@ public class Mezzo {
                 ", numeroPosti=" + numeroPosti +
                 ", inManutenzione=" + inManutenzione +
                 ", inServizio=" + inServizio +
-                ", user=" + user +
                 ", tickets=" + tickets +
                 ", tratta=" + tratta +
                 '}';

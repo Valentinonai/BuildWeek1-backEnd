@@ -5,6 +5,7 @@ import BuildWeek1.entities.*;
 import com.github.javafaker.Faker;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
@@ -161,17 +162,22 @@ public class Application {
                                 long idmezzo=Integer.parseInt(scanner.nextLine());
                                 System.out.println("Inserisci id utente da aggiungere");
                                 long idutente=Integer.parseInt(scanner.nextLine());
-                                int numUser= mezzoDao.getMezzoPieno(mezzoDao.getById(idmezzo));
+                               Mezzo mez= mezzoDao.getById(idmezzo);
+                                em.refresh(mez);
+                            int numUser= mezzoDao.getMezzoPieno(mez.getId());
                                 Mezzo m=mezzoDao.getById(idmezzo);
-                                if(numUser>=m.getNumeroPosti())
-                                {
-                                    System.out.println("Non ci sono posti disponibili cambia mezzo");
-                                }
-                                else{
+                                System.out.println(numUser);
+                              if(numUser>=  m.getNumeroPosti())
+                              {
+                                 throw new Exception("Non ci sono posti disponibili cambia mezzo");
+                              }
+
+                              else{
+                                if(userDao.getById(idutente)!=null) {
                                     m.setUser(userDao.getById(idutente));
                                     mezzoDao.save(m);
-                                    System.out.println("Passeggero aggiunto");
-                                }
+                                }else throw new Exception("Utente non presente");
+                              }
 
                             }
                             case 6->{
@@ -179,16 +185,17 @@ public class Application {
                                 long idmezzo=Integer.parseInt(scanner.nextLine());
                                 System.out.println("Inserisci id utente da scaricare");
                                 long idutente=Integer.parseInt(scanner.nextLine());
-                                int numUser= mezzoDao.getMezzoPieno(mezzoDao.getById(idmezzo));
-                                Mezzo m=mezzoDao.getById(idmezzo);
+                                Mezzo mez= mezzoDao.getById(idmezzo);
+                                int numUser= mezzoDao.getMezzoPieno(mez.getId());
                                 if(numUser==0)
                                 {
-                                    System.out.println("Non ci sono persone da scaricare");
+                                    throw new Exception("Non ci sono persone da scaricare");
                                 }
                                 else{
-                                    m.eliminaUtente(userDao.getById(idutente));
-                                    mezzoDao.save(m);
-                                    System.out.println("Passeggero rimosso");
+                                    if(userDao.getById(idutente)!=null) {
+                                        mez.eliminaUtente(userDao.getById(idutente));
+                                        mezzoDao.save(mez);
+                                    }else throw new Exception("Utente non presente");
                                 }
 
                             }
