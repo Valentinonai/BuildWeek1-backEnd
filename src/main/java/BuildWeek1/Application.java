@@ -211,7 +211,23 @@ public class Application {
 
 
                                 }
-                                case 5 -> ticketDao.getAllTicketForUser(user.getId()).forEach(System.out::println);
+                                case 5 -> {
+                                   Map<TicketType,List<Ticket>> map= ticketDao.getAllTicketForUser(user.getId());
+                                    if (map.get(TicketType.SINGLERIDE) != null) {
+                                        System.out.println("SINGLERIDE");
+                                        map.get(TicketType.SINGLERIDE).forEach(System.out::println);
+                                    }
+
+
+                                    if (map.get(TicketType.WEEKLY) != null) {
+                                        System.out.println("WEEKLY");
+                                        map.get(TicketType.WEEKLY).forEach(System.out::println);
+                                    }
+                                    if (map.get(TicketType.MONTHLY) != null) {
+                                        System.out.println("MONTHLY");
+                                        map.get(TicketType.MONTHLY).forEach(System.out::println);
+                                    }
+                                }
                            case 6-> {
                                if(user.getTessera().getDataScadenza().isBefore(LocalDate.now())){
                                    System.out.println("Tessera scaduta");
