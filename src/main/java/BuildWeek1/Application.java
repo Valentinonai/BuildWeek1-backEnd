@@ -141,11 +141,12 @@ public class Application {
                             } else if (risp == 3) {
                                 break ExitCiclo;
                             }
+                            em.refresh(user);
                         }
                         //***************TESSERA PRESENTE*********************
                         else {
                             Tessera tessera = user.getTessera();
-                            System.out.println("1:acquista singleride 2:acquista settimanale 3:acquista mensile 4:valida abbonamento 5:Esci");
+                            System.out.println("1:acquista singleride 2:acquista settimanale 3:acquista mensile 4:valida ticket 5:Esci");
                             int risp2 = Integer.parseInt(scanner.nextLine());
                             switch (risp2) {
                                 case 1 -> {
@@ -166,6 +167,7 @@ public class Application {
                                     Ticket t = ticketDao.getById(codTicket);
                                     t.setDataValidazione(LocalDateTime.now());
                                     ticketDao.save(t);
+                                    System.out.println("Ticket validato");
 
                                 }
                                 case 5 -> {
