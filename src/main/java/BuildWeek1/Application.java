@@ -102,7 +102,7 @@ public class Application {
                     try {
 
 
-                        System.out.println("1:Numero biglietti in un intervallo di tempo 2:Numero biglietti per tipo vendita 3:Crea tratta 4:inserisci tempo effettivo tratta 5:aggiungi persona al mezzo 6:togli persona dal mezzo 7:crea mezzo 0:Esci");
+                        System.out.println("1:Numero biglietti in un intervallo di tempo 2:Numero biglietti per tipo vendita 3:Crea tratta 4:inserisci tempo effettivo tratta 5:aggiungi persona al mezzo 6:togli persona dal mezzo 7:crea mezzo 8:assegna tratta a mezzo 0:Esci");
                         int risp = Integer.parseInt(scanner.nextLine());
                         switch (risp) {
                             case 1 -> {
@@ -203,6 +203,20 @@ public class Application {
                                 int posti=Integer.parseInt(scanner.nextLine());
                                 mezzoDao.save(new Mezzo(t,posti));
                                 System.out.println("Mezzo salvato");
+                            }
+                            case 8->{
+                                System.out.println("Inserisci id mezzo");
+                                int id_mezzo=Integer.parseInt(scanner.nextLine());
+                                System.out.println("Inserisci tratta da assegnare al mezzo: "+ id_mezzo);
+                                int id_tratta=Integer.parseInt(scanner.nextLine());
+                                Tratta tratta=trattaDAO.getById(id_tratta);
+                                Mezzo m=mezzoDao.getById(id_mezzo);
+                                if(tratta!=null && m!=null){
+                                    m.setTratta(tratta);
+                                    mezzoDao.save(m);
+                                    System.out.println("Tratta associata");
+                                }else System.out.println("Il mezzo o la tratta non esistono");
+
                             }
                             case 0->{
                                 break Exit;

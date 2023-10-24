@@ -18,7 +18,7 @@ public class Tratta {
     @JoinTable(
             name = "mezzi_tratte",
             joinColumns = @JoinColumn(name = "tratta_id"),
-            inverseJoinColumns = @JoinColumn(name = "mezzi_id")
+            inverseJoinColumns = @JoinColumn(name = "mezzo_id")
     )
     private Set<Mezzo> mezzo;
 

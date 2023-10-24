@@ -44,9 +44,10 @@ public class Mezzo {
     private Set<Tratta> tratta;
 
 
+    public Mezzo() {
+    }
 
-
-    public Mezzo(TipoMezzo tipoMezzo,int numeroPosti) {
+    public Mezzo(TipoMezzo tipoMezzo, int numeroPosti) {
      this.tipoMezzo=tipoMezzo;
      this.numeroPosti=numeroPosti;
 
@@ -97,8 +98,8 @@ public class Mezzo {
         return tratta;
     }
 
-    public void setTratta(Set<Tratta> tratta) {
-        this.tratta = tratta;
+    public void setTratta(Tratta tratta) {
+        this.tratta.add(tratta);
     }
 
     public void eliminaUtente(User user){
