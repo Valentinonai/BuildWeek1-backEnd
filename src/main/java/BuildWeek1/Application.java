@@ -7,6 +7,7 @@ import com.github.javafaker.Faker;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -36,6 +37,16 @@ public class Application {
         vbdao.save(vb2);
         VenditaBiglietto vb3 = new VenditaBiglietto(true, TipoVendita.DISTRIBUTORE_AUTOMATICO);
         vbdao.save(vb3); */
+
+        // System.out.println(ticketDao.getTotalTicketInTimeRange(LocalDate.now(), LocalDate.now().plusWeeks(3)));
+        List<Object[]> results = ticketDao.getTotalTicketInTimeRangeGroupedByType(LocalDate.now(), LocalDate.now().plusWeeks(2));
+        for (Object[] result : results) {
+            TicketType tipo = (TicketType) result[0];
+            Long total = (Long) result[1];
+            System.out.println("Tipo: " + tipo.name() + ", Totale: " + total);
+        }
+
+
         try {
             //*****************LOGIN***********************
             ExitCiclo:

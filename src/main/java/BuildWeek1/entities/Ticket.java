@@ -62,7 +62,7 @@ public class Ticket {
     }
 
     public void setDataValidazione(LocalDateTime dataValidazione) {
-        this.dataValidazione= dataValidazione;
+        this.dataValidazione = dataValidazione;
         switch (tipo) {
             case SINGLERIDE -> this.dataScadenza = getDataValidazione().plus(Duration.ofMinutes(90));
 
@@ -73,20 +73,20 @@ public class Ticket {
         }
     }
 
-    public void setVenditabiglietto(VenditaBiglietto venditabiglietto) {
-        this.venditabiglietto = venditabiglietto;
+    public User getUser() {
+        return user;
     }
 
     public void setUser(User user) {
         this.user = user;
     }
 
-    public User getUser() {
-        return user;
-    }
-
     public VenditaBiglietto getVenditabiglietto() {
         return venditabiglietto;
+    }
+
+    public void setVenditabiglietto(VenditaBiglietto venditabiglietto) {
+        this.venditabiglietto = venditabiglietto;
     }
 
     public LocalDateTime getDataScadenza() {
@@ -111,8 +111,11 @@ public class Ticket {
                 "id=" + id +
                 ", dataEmissione=" + dataEmissione +
                 ", dataValidazione=" + dataValidazione +
+                ", dataScadenza=" + dataScadenza +
+                ", tipo=" + tipo +
                 ", user=" + user +
                 ", venditabiglietto=" + venditabiglietto +
+                ", mezzi=" + mezzi +
                 '}';
     }
 }

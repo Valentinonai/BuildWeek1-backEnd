@@ -4,7 +4,7 @@ import BuildWeek1.entities.Ticket;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -49,15 +49,27 @@ public class TicketDao {
         }
     }
 
-    public List<Ticket> getTotalTicketInTimeRange(LocalDate startDate, LocalDate endDate) {
-        TypedQuery<Ticket> getByTime = em.createQuery("SELECT t.ticketType, COUNT(t) as totalt" +
+    public List<Object[]> getTotalTicketInTimeRangeGroupedByType(LocalDate startDate, LocalDate endDate) {
+        Query getByTime = em.createQuery("SELECT t.tipo, COUNT(t) as total " +
                 " FROM Ticket t" +
-                " WHERE t.dataValidazione BETWEEN :startDate AND :endDate" +
-                "GROUP BY t.ticketType" +
-                "ORDER BY COUNT(t) DESC", Ticket.class);
+                " WHERE t.dataEmissione BETWEEN :startDate AND :endDate " +
+                " GROUP BY t.tipo " +
+                " ORDER BY COUNT(t) DESC");
         getByTime.setParameter("startDate", startDate);
         getByTime.setParameter("endDate", endDate);
-        
+
         return getByTime.getResultList();
     }
+
+
+   /* public long getTotalTicketInTimeRange(LocalDate startDate, LocalDate endDate) {
+        Query getByTime = em.createQuery("SELECT COUNT(t) as total " +
+                " FROM Ticket t" +
+                " WHERE t.dataEmissione BETWEEN :startDate AND :endDate");
+        getByTime.setParameter("startDate", startDate);
+        getByTime.setParameter("endDate", endDate);
+
+        return (long) getByTime.getSingleResult();
+    }*/
+
 }
