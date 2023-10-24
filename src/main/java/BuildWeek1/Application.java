@@ -153,8 +153,13 @@ public class Application {
 
                             }
                             case 4->{
-
-                                Tratta t=trattaDAO.getById()
+                                System.out.println("Inserisci codice tratta da modificare");
+                                long id=Integer.parseInt(scanner.nextLine());
+                                Tratta t=trattaDAO.getById(id);
+                                System.out.println("Inserisci tempo in minuti effettivo tratta n: "+id);
+                                int tempo=Integer.parseInt(scanner.nextLine());
+                                t.setTempoEffettivo(tempo);
+                                trattaDAO.save(t);
 
                             }
                             case 0->{
