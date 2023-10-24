@@ -32,8 +32,10 @@ public class MezzoDao {
             }
         }
 
-        public Mezzo getById(long id) {
-            return em.find(Mezzo.class, id);
+        public Mezzo getById(long id) throws Exception {
+            Mezzo m=em.find(Mezzo.class, id);
+            if(m==null) throw new Exception("Il mezzo inserito non esiste");
+            else return m;
         }
 
         public void delete(long id) {

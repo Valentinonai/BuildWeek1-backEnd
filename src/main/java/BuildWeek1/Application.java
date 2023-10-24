@@ -102,8 +102,8 @@ public class Application {
                 while (true) {
                     try {
 
-
-                        System.out.println("1:Numero biglietti in un intervallo di tempo 2:Numero biglietti per tipo vendita 3:Crea tratta 4:inserisci tempo effettivo tratta 5:aggiungi persona al mezzo 6:togli persona dal mezzo 7:crea mezzo 8:assegna tratta a mezzo 0:Esci");
+                        System.out.println("--------------------------------------------------------------------------");
+                        System.out.println("1:Numero biglietti in un intervallo di tempo"+System.lineSeparator()+"2:Numero biglietti per tipo vendita"+System.lineSeparator()+"3:Crea tratta"+System.lineSeparator()+"4:inserisci tempo effettivo tratta"+System.lineSeparator()+"5:aggiungi persona al mezzo"+System.lineSeparator()+"6:togli persona dal mezzo"+System.lineSeparator()+"7:crea mezzo"+System.lineSeparator()+"8:assegna tratta a mezzo"+System.lineSeparator()+"9:Mostra persone su un mezzo"+System.lineSeparator()+"0:Esci");
                         int risp = Integer.parseInt(scanner.nextLine());
                         switch (risp) {
                             case 1 -> {
@@ -226,6 +226,14 @@ public class Application {
                                     System.out.println("Tratta associata");
                                 }else System.out.println("Il mezzo o la tratta non esistono");
 
+                            }
+                            case 9->{
+                                System.out.println("Inserisci il mezzo di cui vuoi controllare i passeggeri");
+                                int r=Integer.parseInt(scanner.nextLine());
+                                Mezzo m=mezzoDao.getById(r);
+                                Set<User> userSet=m.getUser();
+                                if(userSet.size()==0) throw new Exception("Non ci sono passeggeri");
+                                else userSet.forEach(elem-> System.out.println("User id: "+ elem.getId()+" user email: "+elem.getEmail()));
                             }
                             case 0->{
                                 break Exit;
