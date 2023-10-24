@@ -7,6 +7,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 @NamedQuery(name = "findByEmailAndPassword", query = "SELECT u FROM User u WHERE u.email=:email AND u.password=:password")
+@NamedQuery(name="getAllUsers",query = "SELECT u.email FROM User u")
 public class User {
     @Id
     @GeneratedValue
