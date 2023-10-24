@@ -7,6 +7,7 @@ import com.github.javafaker.Faker;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
@@ -149,7 +150,39 @@ public class Application {
                         }
                         //***************TESSERA PRESENTE*********************
                         else {
+
                             Tessera tessera = user.getTessera();
+                            if(tessera.getDataScadenza().isAfter(LocalDate.now()))
+                            {
+                                System.out.println("1:acquista singleride 2:rinnova tessera 3: esci");
+                                int risp = Integer.parseInt(scanner.nextLine());
+                                if (risp == 1) {
+                                    Ticket t = new Ticket(LocalDate.now(), TicketType.SINGLERIDE, user, vbdao.getById(10));
+                                    ticketDao.save(t);
+                                } else if (risp == 2) {
+                                    Tessera tesse = new Tessera(LocalDate.now(), user);
+                                    tesseraDao.save(tesse);
+                                    System.out.println("1:acquista singleride 2:acquista settimanale 3:acquista mensile");
+                                    int risp2 = Integer.parseInt(scanner.nextLine());
+                                    switch (risp2) {
+                                        case 1 -> {
+                                            Ticket t = new Ticket(LocalDate.now(), TicketType.SINGLERIDE, user, vbdao.getById(10));
+                                            ticketDao.save(t);
+                                        }
+                                        case 2 -> {
+                                            Ticket t = new Ticket(LocalDate.now(), TicketType.WEEKLY, user, vbdao.getById(11));
+                                            ticketDao.save(t);
+                                        }
+                                        case 3 -> {
+                                            Ticket t = new Ticket(LocalDate.now(), TicketType.MONTHLY, user, vbdao.getById(12));
+                                            ticketDao.save(t);
+                                        }
+                                    }
+                                } else if (risp == 3) {
+                                    break ExitCiclo;
+                                }
+                                em.refresh(user);
+                            }
                             System.out.println("1:acquista singleride 2:acquista settimanale 3:acquista mensile 4:valida ticket 5:Esci");
                             int risp2 = Integer.parseInt(scanner.nextLine());
                             switch (risp2) {

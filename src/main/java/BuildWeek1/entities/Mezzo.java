@@ -46,9 +46,9 @@ public class Mezzo {
 
 
 
-    public Mezzo() {
-        this.inManutenzione =false;
-        this.inServizio = true;
+    public Mezzo(TipoMezzo tipoMezzo,int numeroPosti) {
+     this.tipoMezzo=tipoMezzo;
+     this.numeroPosti=numeroPosti;
 
     }
 
