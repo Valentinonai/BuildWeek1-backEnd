@@ -211,6 +211,8 @@ public class Application {
                                 int id_tratta=Integer.parseInt(scanner.nextLine());
                                 Tratta tratta=trattaDAO.getById(id_tratta);
                                 Mezzo m=mezzoDao.getById(id_mezzo);
+                                em.refresh(m);
+                                em.refresh(tratta);
                                 if(tratta!=null && m!=null){
                                     m.setTratta(tratta);
                                     mezzoDao.save(m);
