@@ -4,6 +4,7 @@ import BuildWeek1.entities.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -15,14 +16,17 @@ public class UserDao {
     }
 
 
-    public void save(User u) {
+    public void save(User u) throws Exception {
         try {
             EntityTransaction t = em.getTransaction();
             t.begin();
             em.persist(u);
             t.commit();
 
-        } catch (Exception e) {
+        }catch (RollbackException e){
+           throw new Exception("Email già utilizzata scegline un'altra");
+        }
+        catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }

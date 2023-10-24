@@ -1,5 +1,7 @@
 package BuildWeek1.entities;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
@@ -13,7 +15,8 @@ public class User {
     @GeneratedValue
     private long id;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false,unique = true)
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private String email;
     @Column(name = "password", nullable = false)
     private String password;

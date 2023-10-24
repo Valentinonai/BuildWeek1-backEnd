@@ -3,10 +3,7 @@ package BuildWeek1;
 import BuildWeek1.Dao.*;
 import BuildWeek1.entities.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -27,7 +24,6 @@ public class Application {
         TesseraDao tesseraDao=new TesseraDao(em);
         MezzoDao mezzoDao=new MezzoDao(em);
         VenditaBigliettoDao vbdao=new VenditaBigliettoDao(em);
-        Set<String> emailSet=new HashSet<>();
 
 
        /* VenditaBiglietto vb=new VenditaBiglietto(true,TipoVendita.RIVENDITORE);
@@ -38,7 +34,6 @@ public class Application {
         vbdao.save(vb2);
         VenditaBiglietto vb3=new VenditaBiglietto(true,TipoVendita.DISTRIBUTORE_AUTOMATICO);
         vbdao.save(vb3);*/
-        emailSet.addAll(userDao.getAllUsers());
         try {
             ExitCiclo:
             while (true) {
@@ -53,9 +48,6 @@ public class Application {
                             String password = scanner.nextLine();
                             System.out.println("sei un amministratore?(1:true 2:fasle)");
                             int risp2 = Integer.parseInt(scanner.nextLine());
-                            if(emailSet.add(email)) {
-
-
                                 switch (risp2) {
                                     case 1: {
                                         user = new User(email, password, true);
@@ -68,7 +60,6 @@ public class Application {
                                         break ExitCiclo;
                                     }
                                 }
-                            }else System.out.println("Email già utilizzata");
                             break;
                         }
                         case 2: {
@@ -92,7 +83,10 @@ public class Application {
                 {
                     System.out.println("Non hai inserito un valore corretto");
 
-                }catch (Exception e){
+                }catch (RollbackException e){
+                    System.out.println("Email già utilizzata scegline un'altra");
+                }
+                catch (Exception e){
                     System.out.println(e.getMessage());
                 }
             }
