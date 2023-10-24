@@ -102,7 +102,7 @@ public class Application {
                     try {
 
 
-                        System.out.println("1:Numero biglietti in un intervallo di tempo 2:Numero biglietti per tipo vendita 3:Crea tratta 4:inserisci tempo effettivo tratta 5:aggiungi persona al mezzo 6:togli persona dal mezzo 0:Esci");
+                        System.out.println("1:Numero biglietti in un intervallo di tempo 2:Numero biglietti per tipo vendita 3:Crea tratta 4:inserisci tempo effettivo tratta 5:aggiungi persona al mezzo 6:togli persona dal mezzo 7:crea mezzo 0:Esci");
                         int risp = Integer.parseInt(scanner.nextLine());
                         switch (risp) {
                             case 1 -> {
@@ -191,6 +191,18 @@ public class Application {
                                     System.out.println("Passeggero rimosso");
                                 }
 
+                            }
+                            case 7->{
+                                System.out.println("Inserisci tipo mezzo 1:tram 2:autobus");
+                                int ris=Integer.parseInt(scanner.nextLine());
+                                TipoMezzo t;
+                                if(ris==1) t=TipoMezzo.TRAM;
+                                else if(ris==2) t=TipoMezzo.AUTOBUS;
+                                else throw new Exception("Tipo mezzo non disponibile");
+                                System.out.println("Inserisci numero di posti disponibili");
+                                int posti=Integer.parseInt(scanner.nextLine());
+                                mezzoDao.save(new Mezzo(t,posti));
+                                System.out.println("Mezzo salvato");
                             }
                             case 0->{
                                 break Exit;
