@@ -41,19 +41,9 @@ public class Application {
         vbdao.save(vb3); */
 
 
-        List<Object[]> ticketRange = ticketDao.getTotalTicketInTimeRangeGroupedByType(LocalDate.now(), LocalDate.now().plusWeeks(2));
-        for (Object[] result : ticketRange) {
-            TicketType tipo = (TicketType) result[0];
-            Long total = (Long) result[1];
-            System.out.println("Tipo: " + tipo.name() + ", Totale: " + total);
-        }
 
-        List<Object[]> ticketTipoVendita = ticketDao.getTicketsSoldByTipoVendita();
-        for (Object[] result : ticketTipoVendita) {
-            TipoVendita tipoVendita = (TipoVendita) result[0];
-            Long total = (Long) result[1];
-            System.out.println("Tipo Vendita: " + tipoVendita + ", Totale: " + total);
-        }
+
+
 
 
         try {
@@ -114,12 +104,47 @@ public class Application {
             if (user.getAdmin() == true && user != null) {
                 Exit:
                 while (true) {
-                    System.out.println("1:crea mezzo 2:gestisci mezzo");
-                    int risp=Integer.parseInt(scanner.nextLine());
-                    switch (risp){
-                        case 1->{
-//                              mezzoDao.save(new Mezzo());
+                    try {
+
+
+                        System.out.println("1:Numero biglietti in un intervallo di tempo 2:Numero biglietti per tipo vendita 0:Esci");
+                        int risp = Integer.parseInt(scanner.nextLine());
+                        switch (risp) {
+                            case 1 -> {
+                                System.out.println("Inserisci anno data iniziale");
+                                int annoi=Integer.parseInt(scanner.nextLine());
+                                System.out.println("Inserisci mese data iniziale");
+                                int mesei=Integer.parseInt(scanner.nextLine());
+                                System.out.println("Inserisci giorno data iniziale");
+                                int giornoi=Integer.parseInt(scanner.nextLine());
+                                System.out.println("Inserisci anno data finale");
+                                int annof=Integer.parseInt(scanner.nextLine());
+                                System.out.println("Inserisci mese data finale");
+                                int mesef=Integer.parseInt(scanner.nextLine());
+                                System.out.println("Inserisci giorno data finale");
+                                int giornof=Integer.parseInt(scanner.nextLine());
+                                List<Object[]> ticketRange = ticketDao.getTotalTicketInTimeRangeGroupedByType(LocalDate.of(annoi,mesei,giornoi), LocalDate.of(annof,mesef,giornof));
+                                for (Object[] result : ticketRange) {
+                                    TicketType tipo = (TicketType) result[0];
+                                    Long total = (Long) result[1];
+                                    System.out.println("Tipo: " + tipo.name() + ", Totale: " + total);
+                                }
+                            }
+                            case 2 -> {
+                                List<Object[]> ticketTipoVendita = ticketDao.getTicketsSoldByTipoVendita();
+                                for (Object[] result : ticketTipoVendita) {
+                                    TipoVendita tipoVendita = (TipoVendita) result[0];
+                                    Long total = (Long) result[1];
+                                    System.out.println("Tipo Vendita: " + tipoVendita + ", Totale: " + total);
+                                }
+                            }
+                            case 0->{
+                                break Exit;
+                            }
                         }
+                    }catch (Exception e)
+                    {
+                        System.out.println(e.getMessage());
                     }
                 }
 
@@ -132,7 +157,7 @@ public class Application {
                     try {
                         //***************TESSERA NULL*************************
                         if (user.getTessera() == null) {
-                            System.out.println("1:acquista singleride 2:acquista tessera 3: esci");
+                            System.out.println("1:acquista singleride 2:acquista tessera 0: esci");
                             int risp = Integer.parseInt(scanner.nextLine());
                             if (risp == 1) {
                                 Ticket t = new Ticket(LocalDate.now(), TicketType.SINGLERIDE, user, vbdao.getById(26));
@@ -156,7 +181,7 @@ public class Application {
                                         ticketDao.save(t);
                                     }
                                 }
-                            } else if (risp == 3) {
+                            } else if (risp == 0) {
                                 break ExitCiclo;
                             }
                             em.refresh(user);
@@ -167,7 +192,7 @@ public class Application {
                             Tessera tessera = user.getTessera();
                             if(tessera.getDataScadenza().isBefore(LocalDate.now()))
                             {
-                                System.out.println("1:acquista singleride 2:rinnova tessera 3: esci");
+                                System.out.println("1:acquista singleride 2:rinnova tessera 0: esci");
                                 int risp = Integer.parseInt(scanner.nextLine());
                                 if (risp == 1) {
                                     Ticket t = new Ticket(LocalDate.now(), TicketType.SINGLERIDE, user, vbdao.getById(10));
@@ -193,12 +218,12 @@ public class Application {
                                             ticketDao.save(t);
                                         }
                                     }
-                                } else if (risp == 3) {
+                                } else if (risp == 0) {
                                     break ExitCiclo;
                                 }
                                 em.refresh(user);
                             }
-                            System.out.println("1:acquista singleride 2:acquista settimanale 3:acquista mensile 4:valida ticket 5:Biglietti acquistati 6:Verifica validità tessera 7:Esci");
+                            System.out.println("1:acquista singleride 2:acquista settimanale 3:acquista mensile 4:valida ticket 5:Biglietti acquistati 6:Verifica validità tessera 0:Esci");
                             int risp2 = Integer.parseInt(scanner.nextLine());
                             switch (risp2) {
                                 case 1 -> {
@@ -255,7 +280,7 @@ public class Application {
 
 
                            }
-                                case 7->{
+                                case 0->{
                                 break ExitCiclo;
                                 }
                             }

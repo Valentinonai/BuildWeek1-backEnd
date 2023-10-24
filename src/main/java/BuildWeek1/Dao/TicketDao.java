@@ -72,6 +72,10 @@ public class TicketDao {
                 "GROUP BY t.venditabiglietto.tipoVendita");
         return query.getResultList();
     }
-
+    public Map<TicketType,List<Ticket>> getAllTicketForUser(long id){
+        TypedQuery<Ticket> q=em.createQuery("SELECT t FROM Ticket t  WHERE t.user.id=:id_user ",Ticket.class);
+        q.setParameter("id_user",id);
+        return  q.getResultList().stream().collect(Collectors.groupingBy(Ticket::getTipo));
+    }
 
 }
