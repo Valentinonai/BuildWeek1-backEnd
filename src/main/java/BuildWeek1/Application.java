@@ -5,6 +5,7 @@ import BuildWeek1.entities.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -38,44 +39,55 @@ public class Application {
         try {
             ExitCiclo:
             while (true) {
-                System.out.println("1:SignUp 2:LogIn");
-                int risp = Integer.parseInt(scanner.nextLine());
-                switch (risp) {
-                    case 1: {
-                        System.out.println("inserisci email");
-                        String email = scanner.nextLine();
-                        System.out.println("inserisci password");
-                        String password = scanner.nextLine();
-                        System.out.println("sei un amministratore?(1:true 2:fasle)");
-                        int risp2 = Integer.parseInt(scanner.nextLine());
-                        switch (risp2) {
-                            case 1: {
-                                user = new User(email, password, true);
-                                userDao.save(user);
-                                break;
+                try{
+                    System.out.println("1:SignUp 2:LogIn");
+                    int risp = Integer.parseInt(scanner.nextLine());
+                    switch (risp) {
+                        case 1: {
+                            System.out.println("inserisci email");
+                            String email = scanner.nextLine();
+                            System.out.println("inserisci password");
+                            String password = scanner.nextLine();
+                            System.out.println("sei un amministratore?(1:true 2:fasle)");
+                            int risp2 = Integer.parseInt(scanner.nextLine());
+                            switch (risp2) {
+                                case 1: {
+                                    user = new User(email, password, true);
+                                    userDao.save(user);
+                                    break;
+                                }
+                                case 2: {
+                                    user = new User(email, password, false);
+                                    userDao.save(user);
+                                    break;
+                                }
                             }
-                            case 2: {
-                                user = new User(email, password, false);
-                                userDao.save(user);
-                                break;
-                            }
-                        }
 
-                        break ExitCiclo;
+                            break ExitCiclo;
+                        }
+                        case 2: {
+                            System.out.println("inserisci email");
+                            String email = scanner.nextLine();
+                            System.out.println("inserisci password");
+                            String password = scanner.nextLine();
+                            user = userDao.findByUserAndEmail(email, password);
+                            if (user == null)
+                                System.out.println("Utente non trovato");
+                            else System.out.println("Accesso effettuato");
+                            break ExitCiclo;
+                        }
+                        default:
+                            break;
                     }
-                    case 2: {
-                        System.out.println("inserisci email");
-                        String email = scanner.nextLine();
-                        System.out.println("inserisci password");
-                        String password = scanner.nextLine();
-                        user = userDao.findByUserAndEmail(email, password);
-                        if (user == null)
-                            System.out.println("Utente non trovato");
-                        else System.out.println("Accesso effettuato");
-                        break ExitCiclo;
-                    }
-                    default:
-                        break;
+                }catch (NoResultException e){
+                    System.out.println("Nessun utente trovato");
+                }
+                catch (NumberFormatException e)
+                {
+                    System.out.println("Non hai inserito un numero corretto");
+
+                }catch (Exception e){
+                    System.out.println(e.getMessage());
                 }
             }
             if (user.getAdmin() == true && user != null) {

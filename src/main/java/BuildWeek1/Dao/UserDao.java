@@ -47,10 +47,14 @@ public class UserDao {
         }
     }
 
-    public User findByUserAndEmail(String email, String password) {
+    public User findByUserAndEmail(String email, String password) throws Exception {
         TypedQuery<User> q = em.createNamedQuery("findByEmailAndPassword", User.class);
         q.setParameter("email", email);
         q.setParameter("password", password);
-        return q.getSingleResult();
+        User u=q.getSingleResult();
+        if(u==null)
+            throw new Exception("Accesso negato");
+        else
+        return u;
     }
 }
