@@ -169,9 +169,14 @@ public class Application {
                                     System.out.println("inserisci codice biglietto");
                                     long codTicket = Integer.parseInt(scanner.nextLine());
                                     Ticket t = ticketDao.getById(codTicket);
-                                    t.setDataValidazione(LocalDateTime.now());
-                                    ticketDao.save(t);
-                                    System.out.println("Ticket validato");
+                                    if(t.getUser().getId()==user.getId()){
+                                        t.setDataValidazione(LocalDateTime.now());
+                                        ticketDao.save(t);
+                                        System.out.println("Ticket validato");
+                                    }else{
+                                        System.out.println("Non hai nessun biglietto con codice "+codTicket);
+                                    }
+
 
                                 } case 5->{
                                 break ExitCiclo;
