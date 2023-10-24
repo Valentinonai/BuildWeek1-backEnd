@@ -2,11 +2,13 @@ package BuildWeek1;
 
 import BuildWeek1.Dao.*;
 import BuildWeek1.entities.*;
+import com.github.javafaker.Faker;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -14,6 +16,8 @@ public class Application {
 
     private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("EntityManagerFactory");
     private static final Scanner scanner = new Scanner(System.in);
+    private static final Faker fkr=new Faker();
+    private static final Random rnd=new Random();
 
     public static void main(String[] args) {
         EntityManager em = emf.createEntityManager();
@@ -35,6 +39,7 @@ public class Application {
         VenditaBiglietto vb3=new VenditaBiglietto(true,TipoVendita.DISTRIBUTORE_AUTOMATICO);
         vbdao.save(vb3);*/
         try {
+            //*****************LOGIN***********************
             ExitCiclo:
             while (true) {
                 try{
@@ -90,6 +95,7 @@ public class Application {
                     System.out.println(e.getMessage());
                 }
             }
+            //*****************ADMIN************************
             if (user.getAdmin() == true && user != null) {
                 Exit:
                 while(true){
@@ -105,10 +111,12 @@ public class Application {
 
 
             }
+            //*****************USER*************************
              else if(user.getAdmin() == false && user != null) {
                 ExitCiclo:
                 while (true) {
                     try{
+                        //***************TESSERA NULL*************************
                         if (user.getTessera() == null) {
                             System.out.println("1:acquista singleride 2:acquista tessera 3: esci");
                             int risp = Integer.parseInt(scanner.nextLine());
@@ -137,7 +145,9 @@ public class Application {
                             } else if (risp == 3) {
                                 break ExitCiclo;
                             }
-                        } else {
+                        }
+                        //***************TESSERA PRESENTE*********************
+                        else {
                             Tessera tessera = user.getTessera();
                             System.out.println("1:acquista singleride 2:acquista settimanale 3:acquista mensile 4:valida abbonamento 5:Esci");
                             int risp2 = Integer.parseInt(scanner.nextLine());
@@ -191,6 +201,12 @@ public class Application {
             em.close();
             emf.close();
         }
+
+    }
+
+    public static void fillUser(UserDao userDao) throws Exception {
+        User u=new User(fkr.internet().emailAddress(),fkr.internet().password(),rnd.nextInt(0,2)==0?true:false );
+        userDao.save(u);
 
     }
 }
