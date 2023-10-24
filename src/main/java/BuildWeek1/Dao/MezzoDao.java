@@ -76,50 +76,14 @@ public class MezzoDao {
         } finally {
             em.close();
         }
-Mezzo mezzo = new Mezzo()
-        public void setMezzoInServizio(Mezzo mezzo) {
-            EntityTransaction transaction = em.getTransaction();
-            try {
-                transaction.begin();
 
-                mezzo.setInServizio(true);
-                mezzo.setInManutenzione(false);
-
-                em.merge(mezzo);
-
-                transaction.commit();
-            } catch (Exception e) {
-                if (transaction != null && transaction.isActive()) {
-                    transaction.rollback();
-                }
-                e.printStackTrace();
-            }
-        }
-
-        public void setMezzoInManutenzione(Mezzo mezzo) {
-            EntityTransaction transaction = em.getTransaction();
-            try {
-                transaction.begin();
-
-                mezzo.setInServizio(false);
-                mezzo.setInManutenzione(true);
-
-                em.merge(mezzo);
-
-                transaction.commit();
-            } catch (Exception e) {
-                if (transaction != null && transaction.isActive()) {
-                    transaction.rollback();
-                }
-                e.printStackTrace();
-            }
         }
 
 
     }
 
 
-    }
+
 
 
 
