@@ -108,7 +108,7 @@ public class Application {
                     try {
 
 
-                        System.out.println("1:Numero biglietti in un intervallo di tempo 2:Numero biglietti per tipo vendita 3:Crea tratta 0:Esci");
+                        System.out.println("1:Numero biglietti in un intervallo di tempo 2:Numero biglietti per tipo vendita 3:Crea tratta 4:inserisci tempo effettivo tratta 0:Esci");
                         int risp = Integer.parseInt(scanner.nextLine());
                         switch (risp) {
                             case 1 -> {
@@ -150,6 +150,11 @@ public class Application {
                                 Tratta tratta=new Tratta(cittaPartenza,cittaArrivo,t);
                                 trattaDAO.save(tratta);
 
+
+                            }
+                            case 4->{
+
+                                Tratta t=trattaDAO.getById()
 
                             }
                             case 0->{

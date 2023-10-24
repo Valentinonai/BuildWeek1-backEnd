@@ -16,7 +16,7 @@ public class Tratta {
 
     @ManyToMany
     @JoinTable(
-            name = "tratte_mezzi",
+            name = "mezzi_tratte",
             joinColumns = @JoinColumn(name = "tratta_id"),
             inverseJoinColumns = @JoinColumn(name = "mezzi_id")
     )

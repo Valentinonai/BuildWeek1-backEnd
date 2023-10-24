@@ -1,5 +1,6 @@
 package BuildWeek1.Dao;
 
+import BuildWeek1.entities.Ticket;
 import BuildWeek1.entities.Tratta;
 
 import javax.persistence.EntityManager;
@@ -18,7 +19,9 @@ public class TrattaDAO {
         transaction.commit();
         System.out.println("Tratta salvata correttamente");
     }
-
+    public Tratta getById(long id) {
+        return em.find(Tratta.class, id);
+    }
     public void findAndDelete (long id){
         Tratta found =  em.find(Tratta.class, id);
         if (found != null) {
