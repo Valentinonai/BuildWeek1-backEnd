@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.time.LocalDate;
 
 public class TicketDao {
     private EntityManager em;
@@ -53,9 +54,24 @@ public class TicketDao {
         }
     }
 
-    public Map<TicketType,List<Ticket>> getAllTicketForUser(long id){
-        TypedQuery<Ticket> q=em.createQuery("SELECT t FROM Ticket t  WHERE t.user.id=:id_user ",Ticket.class);
-        q.setParameter("id_user",id);
-      return  q.getResultList().stream().collect(Collectors.groupingBy(Ticket::getTipo));
+    public List<Object[]> getTotalTicketInTimeRangeGroupedByType(LocalDate startDate, LocalDate endDate) {
+        Query getByTime = em.createQuery("SELECT t.tipo, COUNT(t) as total " +
+                " FROM Ticket t" +
+                " WHERE t.dataEmissione BETWEEN :startDate AND :endDate " +
+                " GROUP BY t.tipo " +
+                " ORDER BY COUNT(t) DESC");
+        getByTime.setParameter("startDate", startDate);
+        getByTime.setParameter("endDate", endDate);
+
+        return getByTime.getResultList();
     }
+
+    public List<Object[]> getTicketsSoldByTipoVendita() {
+        Query query = em.createQuery("SELECT t.venditabiglietto.tipoVendita , COUNT(t) " +
+                "FROM Ticket t  " +
+                "GROUP BY t.venditabiglietto.tipoVendita");
+        return query.getResultList();
+    }
+
+
 }
