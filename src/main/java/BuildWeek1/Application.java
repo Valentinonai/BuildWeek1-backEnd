@@ -103,7 +103,7 @@ public class Application {
                     try {
 
                         System.out.println("--------------------------------------------------------------------------");
-                        System.out.println("1:Numero biglietti in un intervallo di tempo"+System.lineSeparator()+"2:Numero biglietti per tipo vendita"+System.lineSeparator()+"3:Crea tratta"+System.lineSeparator()+"4:inserisci tempo effettivo tratta"+System.lineSeparator()+"5:aggiungi persona al mezzo"+System.lineSeparator()+"6:togli persona dal mezzo"+System.lineSeparator()+"7:crea mezzo"+System.lineSeparator()+"8:assegna tratta a mezzo"+System.lineSeparator()+"9:Mostra persone su un mezzo"+System.lineSeparator()+"0:Esci");
+                        System.out.println("1:Numero biglietti in un intervallo di tempo"+System.lineSeparator()+"2:Numero biglietti per tipo vendita"+System.lineSeparator()+"3:Crea tratta"+System.lineSeparator()+"4:inserisci tempo effettivo tratta"+System.lineSeparator()+"5:aggiungi persona al mezzo"+System.lineSeparator()+"6:togli persona dal mezzo"+System.lineSeparator()+"7:crea mezzo"+System.lineSeparator()+"8:assegna tratta a mezzo"+System.lineSeparator()+"9:Mostra persone su un mezzo"+System.lineSeparator()+"10:Calcola numero di volte un mezzo ha effettuato una tratta"+System.lineSeparator()+"11:Mostra numero mezzi disponibili"+System.lineSeparator()+"12:Modifica stato di un mezzo"+System.lineSeparator()+"13:Tempo totale manutenzione e servizio di un mezzo"+System.lineSeparator()+"14:Numero biglietti per mezzo in periodo di tempo"+System.lineSeparator()+"0:Esci");
                         int risp = Integer.parseInt(scanner.nextLine());
                         switch (risp) {
                             case 1 -> {
@@ -235,6 +235,11 @@ public class Application {
                                 if(userSet.size()==0) throw new Exception("Non ci sono passeggeri");
                                 else userSet.forEach(elem-> System.out.println("User id: "+ elem.getId()+" user email: "+elem.getEmail()));
                             }
+                            case 10->{}
+                            case 11->{}
+                            case 12->{}
+                            case 13->{}
+                            case 14->{}
                             case 0->{
                                 break Exit;
                             }
@@ -407,9 +412,4 @@ public class Application {
 
     }
 
-    public static void fillUser(UserDao userDao) throws Exception {
-        User u = new User(fkr.internet().emailAddress(), fkr.internet().password(), rnd.nextInt(0, 2) == 0 ? true : false);
-        userDao.save(u);
-
-    }
 }
