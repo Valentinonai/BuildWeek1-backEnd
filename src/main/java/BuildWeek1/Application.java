@@ -41,12 +41,6 @@ public class Application {
         VenditaBiglietto vb3 = new VenditaBiglietto(true, TipoVendita.DISTRIBUTORE_AUTOMATICO);
         vbdao.save(vb3); */
 
-
-
-
-
-
-
         try {
             //*****************LOGIN***********************
             ExitCiclo:
@@ -108,7 +102,7 @@ public class Application {
                     try {
 
 
-                        System.out.println("1:Numero biglietti in un intervallo di tempo 2:Numero biglietti per tipo vendita 3:Crea tratta 4:inserisci tempo effettivo tratta 0:Esci");
+                        System.out.println("1:Numero biglietti in un intervallo di tempo 2:Numero biglietti per tipo vendita 3:Crea tratta 4:inserisci tempo effettivo tratta 5:aggiungi persona al mezzo 6:togli persona dal mezzo 0:Esci");
                         int risp = Integer.parseInt(scanner.nextLine());
                         switch (risp) {
                             case 1 -> {
@@ -160,6 +154,42 @@ public class Application {
                                 int tempo=Integer.parseInt(scanner.nextLine());
                                 t.setTempoEffettivo(tempo);
                                 trattaDAO.save(t);
+
+                            }
+                            case 5->{
+                                System.out.println("Inserisci id mezzo");
+                                long idmezzo=Integer.parseInt(scanner.nextLine());
+                                System.out.println("Inserisci id utente da aggiungere");
+                                long idutente=Integer.parseInt(scanner.nextLine());
+                                int numUser= mezzoDao.getMezzoPieno(mezzoDao.getById(idmezzo));
+                                Mezzo m=mezzoDao.getById(idmezzo);
+                                if(numUser>=m.getNumeroPosti())
+                                {
+                                    System.out.println("Non ci sono posti disponibili cambia mezzo");
+                                }
+                                else{
+                                    m.setUser(userDao.getById(idutente));
+                                    mezzoDao.save(m);
+                                    System.out.println("Passeggero aggiunto");
+                                }
+
+                            }
+                            case 6->{
+                                System.out.println("Inserisci id mezzo");
+                                long idmezzo=Integer.parseInt(scanner.nextLine());
+                                System.out.println("Inserisci id utente da scaricare");
+                                long idutente=Integer.parseInt(scanner.nextLine());
+                                int numUser= mezzoDao.getMezzoPieno(mezzoDao.getById(idmezzo));
+                                Mezzo m=mezzoDao.getById(idmezzo);
+                                if(numUser==0)
+                                {
+                                    System.out.println("Non ci sono persone da scaricare");
+                                }
+                                else{
+                                    m.eliminaUtente(userDao.getById(idutente));
+                                    mezzoDao.save(m);
+                                    System.out.println("Passeggero rimosso");
+                                }
 
                             }
                             case 0->{

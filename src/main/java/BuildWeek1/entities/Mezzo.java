@@ -73,13 +73,16 @@ public class Mezzo {
         this.inServizio = inServizio;
     }
 
+    public long getNumeroPosti() {
+        return numeroPosti;
+    }
 
     public Set<User> getUser() {
         return user;
     }
 
-    public void setUser(Set<User> user) {
-        this.user = user;
+    public void setUser(User user) {
+        this.user.add(user);
     }
 
     public Set<Ticket> getTickets() {
@@ -98,6 +101,9 @@ public class Mezzo {
         this.tratta = tratta;
     }
 
+    public void eliminaUtente(User user){
+        this.user.remove(user);
+    }
     @Override
     public String toString() {
         return "Mezzo{" +

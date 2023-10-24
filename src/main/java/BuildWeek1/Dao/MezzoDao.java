@@ -5,6 +5,7 @@ import BuildWeek1.entities.Tessera;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 public class MezzoDao {
 
@@ -48,6 +49,12 @@ public class MezzoDao {
                 System.out.println(e.getMessage());
             }
         }
+    public Integer getMezzoPieno(Mezzo mezzo) {
+        TypedQuery getMezzoPieno = em.createQuery("SELECT COUNT(m.user)FROM Mezzo m " +
+                "WHERE id = :mezzo", Mezzo.class);
+        getMezzoPieno.setParameter(":mezzo", mezzo);
+        return (Integer) getMezzoPieno.getSingleResult();
+    }
 
 
     }
