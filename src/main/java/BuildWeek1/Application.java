@@ -29,6 +29,7 @@ public class Application {
         TesseraDao tesseraDao = new TesseraDao(em);
         MezzoDao mezzoDao = new MezzoDao(em);
         VenditaBigliettoDao vbdao = new VenditaBigliettoDao(em);
+        TrattaDAO trattaDAO=new TrattaDAO(em);
 
 
         /*VenditaBiglietto vb = new VenditaBiglietto(true, TipoVendita.RIVENDITORE);
@@ -107,7 +108,7 @@ public class Application {
                     try {
 
 
-                        System.out.println("1:Numero biglietti in un intervallo di tempo 2:Numero biglietti per tipo vendita 0:Esci");
+                        System.out.println("1:Numero biglietti in un intervallo di tempo 2:Numero biglietti per tipo vendita 3:Crea tratta 0:Esci");
                         int risp = Integer.parseInt(scanner.nextLine());
                         switch (risp) {
                             case 1 -> {
@@ -137,6 +138,19 @@ public class Application {
                                     Long total = (Long) result[1];
                                     System.out.println("Tipo Vendita: " + tipoVendita + ", Totale: " + total);
                                 }
+                            }
+                            case 3->{
+
+                                System.out.println("Inserisci città di partenza");
+                                String cittaPartenza=scanner.nextLine();
+                                System.out.println("Inserisci città di arrivo");
+                                String cittaArrivo=scanner.nextLine();
+                                System.out.println("inserisci il tempo stimato in minuti");
+                                int t=Integer.parseInt(scanner.nextLine());
+                                Tratta tratta=new Tratta(cittaPartenza,cittaArrivo,t);
+                                trattaDAO.save(tratta);
+
+
                             }
                             case 0->{
                                 break Exit;
