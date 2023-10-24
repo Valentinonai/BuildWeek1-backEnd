@@ -111,9 +111,7 @@ public class Ticket {
                 "id=" + id +
                 ", dataEmissione=" + dataEmissione +
                 ", dataValidazione=" + dataValidazione +
-                ", dataScadenza=" + dataScadenza +
-                ", tipo=" + tipo +
-                ", user=" + user +
+                ", ticketType="+tipo+
                 ", venditabiglietto=" + venditabiglietto +
                 ", mezzi=" + mezzi +
                 '}';

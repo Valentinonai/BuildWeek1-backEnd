@@ -1,12 +1,17 @@
 package BuildWeek1.Dao;
 
 import BuildWeek1.entities.Ticket;
+import BuildWeek1.entities.TicketType;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
-import java.time.LocalDate;
+import javax.persistence.TypedQuery;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.time.LocalDate;
 
 public class TicketDao {
     private EntityManager em;
@@ -67,6 +72,10 @@ public class TicketDao {
                 "GROUP BY t.venditabiglietto.tipoVendita");
         return query.getResultList();
     }
-
+    public Map<TicketType,List<Ticket>> getAllTicketForUser(long id){
+        TypedQuery<Ticket> q=em.createQuery("SELECT t FROM Ticket t  WHERE t.user.id=:id_user ",Ticket.class);
+        q.setParameter("id_user",id);
+        return  q.getResultList().stream().collect(Collectors.groupingBy(Ticket::getTipo));
+    }
 
 }

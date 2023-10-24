@@ -26,7 +26,7 @@ public class User {
 
     @Column(name = "admin")
     private Boolean isAdmin;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE,orphanRemoval = true)
     @Column(name = "ticketList")
     private List<Ticket> ticketList;
 

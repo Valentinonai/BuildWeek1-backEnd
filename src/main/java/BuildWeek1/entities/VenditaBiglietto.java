@@ -60,7 +60,6 @@ public class VenditaBiglietto {
                 "id=" + id +
                 ", is_working=" + is_working +
                 ", tipoVendita=" + tipoVendita +
-                ", ticketList=" + ticketList +
                 '}';
     }
 }

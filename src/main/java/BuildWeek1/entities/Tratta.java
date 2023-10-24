@@ -18,7 +18,7 @@ public class Tratta {
     @JoinTable(
             name = "mezzi_tratte",
             joinColumns = @JoinColumn(name = "tratta_id"),
-            inverseJoinColumns = @JoinColumn(name = "mezzi_id")
+            inverseJoinColumns = @JoinColumn(name = "mezzo_id")
     )
     private Set<Mezzo> mezzo;
 
@@ -34,12 +34,10 @@ public class Tratta {
     public Tratta() {
     }
 
-    public Tratta(long id, String zonaPartenza, String capolinea, long tempoStimato, long tempoEffettivo) {
-        this.id = id;
+    public Tratta( String zonaPartenza, String capolinea, long tempoStimato) {
         this.zonaPartenza = zonaPartenza;
         this.capolinea = capolinea;
         this.tempoStimato = tempoStimato;
-        this.tempoEffettivo = tempoEffettivo;
     }
 
     public String getZonaPartenza() {
