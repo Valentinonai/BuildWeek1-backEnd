@@ -111,7 +111,7 @@ public class Ticket {
                 "id=" + id +
                 ", dataEmissione=" + dataEmissione +
                 ", dataValidazione=" + dataValidazione +
-                ", user=" + user +
+                ", ticketType="+tipo+
                 ", venditabiglietto=" + venditabiglietto +
                 '}';
     }

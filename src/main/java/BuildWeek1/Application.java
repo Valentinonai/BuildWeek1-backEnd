@@ -8,10 +8,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class Application {
 
@@ -185,7 +182,7 @@ public class Application {
                                 }
                                 em.refresh(user);
                             }
-                            System.out.println("1:acquista singleride 2:acquista settimanale 3:acquista mensile 4:valida ticket 5:Esci");
+                            System.out.println("1:acquista singleride 2:acquista settimanale 3:acquista mensile 4:valida ticket 5:Biglietti acquistati 6:Esci");
                             int risp2 = Integer.parseInt(scanner.nextLine());
                             switch (risp2) {
                                 case 1 -> {
@@ -213,7 +210,13 @@ public class Application {
                                     }
 
 
-                                } case 5->{
+                                }
+                                case 5 ->{
+
+                                    ticketDao.getAllTicketForUser(user.getId()).forEach(System.out::println);
+
+                                }
+                                case 6->{
                                 break ExitCiclo;
                                 }
                             }
