@@ -101,8 +101,8 @@ public class Ticket {
         return mezzi;
     }
 
-    public void setMezzi(Set<Mezzo> mezzi) {
-        this.mezzi = mezzi;
+    public void setMezzi(Mezzo mezzo) {
+        this.mezzi.add(mezzo);
     }
 
     @Override
@@ -113,7 +113,6 @@ public class Ticket {
                 ", dataValidazione=" + dataValidazione +
                 ", ticketType="+tipo+
                 ", venditabiglietto=" + venditabiglietto +
-                ", mezzi=" + mezzi +
                 '}';
     }
 }

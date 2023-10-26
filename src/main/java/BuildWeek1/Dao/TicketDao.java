@@ -1,5 +1,6 @@
 package BuildWeek1.Dao;
 
+import BuildWeek1.entities.Mezzo;
 import BuildWeek1.entities.Ticket;
 import BuildWeek1.entities.TicketType;
 
@@ -7,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +78,21 @@ public class TicketDao {
         TypedQuery<Ticket> q=em.createQuery("SELECT t FROM Ticket t  WHERE t.user.id=:id_user ",Ticket.class);
         q.setParameter("id_user",id);
         return  q.getResultList().stream().collect(Collectors.groupingBy(Ticket::getTipo));
+    }
+    public Long getTicketByMezzo(long mezzo_id, LocalDateTime datai, LocalDateTime dataf) throws Exception {
+        try {
+            MezzoDao md = new MezzoDao(em);
+            Mezzo m = md.getById(mezzo_id);
+            TypedQuery<Long> q = em.createQuery("SELECT COUNT(t) FROM Ticket t WHERE :m MEMBER OF t.mezzi AND t.dataValidazione BETWEEN :datai AND :dataf", Long.class);
+            q.setParameter("m", m);
+            q.setParameter("datai", datai);
+            q.setParameter("dataf", dataf);
+            return q.getSingleResult();
+
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+
     }
 
 }
