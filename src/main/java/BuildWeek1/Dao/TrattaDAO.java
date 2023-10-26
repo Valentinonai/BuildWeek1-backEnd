@@ -38,9 +38,10 @@ public class TrattaDAO {
         }
     }
 
-    public long countTratteByMezzo(long mezzoId) {
-        Query count = em.createQuery("SELECT COUNT(t) FROM Tratta t JOIN t.mezzo m WHERE m.id = :mezzoId");
+    public long countTratteByMezzo(long mezzoId, long trattaId) {
+        Query count = em.createQuery("SELECT COUNT(t) FROM Tratta t JOIN t.mezzo m WHERE m.id = :mezzoId AND t.id = :trattaId");
         count.setParameter("mezzoId", mezzoId);
+        count.setParameter("trattaId", trattaId);
         return (long) count.getSingleResult();
     }
 
