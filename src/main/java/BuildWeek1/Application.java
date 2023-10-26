@@ -48,8 +48,7 @@ public class Application {
 
 
 
-        int mezziDisponibili = mezzoDao.findMezziDisponibili();
-        System.out.println("Numero di mezzi disponibili: " + mezziDisponibili);
+
 
 
 
