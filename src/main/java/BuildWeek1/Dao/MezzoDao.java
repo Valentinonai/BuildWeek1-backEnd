@@ -5,6 +5,7 @@ import BuildWeek1.entities.Tessera;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Id;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -14,14 +15,14 @@ import javax.persistence.criteria.Root;
 public class MezzoDao {
 
 
-        private EntityManager em;
+        private static EntityManager em;
 
         public MezzoDao(EntityManager em) {
             this.em = em;
         }
 
 
-        public void save(Mezzo m) {
+        public static void save(Mezzo m) {
             try {
                 EntityTransaction t = em.getTransaction();
                 t.begin();
@@ -33,7 +34,7 @@ public class MezzoDao {
             }
         }
 
-        public Mezzo getById(long id) {
+        public static Mezzo getById(long id) {
             return em.find(Mezzo.class, id);
         }
 
@@ -53,6 +54,54 @@ public class MezzoDao {
                 System.out.println(e.getMessage());
             }
         }
+
+    public static Mezzo trovaMezzoPerId(int mezzoId) {
+
+        return em.find(Mezzo.class, mezzoId);
+    }
+
+    public void cambiaStatoServizio(int mezzoId, boolean nuovoStatoServizio) {
+        Mezzo mezzo = MezzoDao.getById(mezzoId);
+
+        if (mezzo == null) {
+            System.err.println("Mezzo non trovato.");
+        } else {
+
+            mezzo.setInServizio(nuovoStatoServizio);
+
+
+            MezzoDao.save(mezzo);
+           ;
+
+            if (nuovoStatoServizio) {
+                System.out.println("Il veicolo è stato messo in servizio.");
+            } else {
+                System.out.println("Il veicolo è stato messo fuori servizio.");
+            }
+        }
+    }
+
+    public void cambiaStatoManutenzione(int mezzoId, boolean nuovoStatoManutenzione) {
+        Mezzo mezzo = MezzoDao.getById(mezzoId);
+
+        if (mezzo == null) {
+            System.err.println("Mezzo non trovato.");
+        } else {
+
+            mezzo.setInServizio(nuovoStatoManutenzione);
+
+
+            MezzoDao.save(mezzo);
+
+
+            if (nuovoStatoManutenzione) {
+                System.out.println("Il veicolo è stato messo in manutenzione.");
+            } else {
+                System.out.println("Il veicolo è stato messo fuori dalla manutenzione.");
+            }
+        }
+    }
+
     public int findMezziDisponibili() {
 
         try {
@@ -78,9 +127,7 @@ public class MezzoDao {
         }
 
         }
-
-
-    }
+   }
 
 
 

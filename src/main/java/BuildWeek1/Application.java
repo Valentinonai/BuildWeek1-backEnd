@@ -42,13 +42,6 @@ public class Application {
 
 
 
-        Mezzo nuovoMezzo = new Mezzo(TipoMezzo.TRAM, 34, false, false);
-
-        nuovoMezzo.setInManutenzione(true);
-        //mezzoDao.save(nuovoMezzo);
-        System.out.println(nuovoMezzo);
-
-
 
 
 
@@ -57,6 +50,8 @@ public class Application {
 
         int mezziDisponibili = mezzoDao.findMezziDisponibili();
         System.out.println("Numero di mezzi disponibili: " + mezziDisponibili);
+
+
 
        /* VenditaBiglietto vb=new VenditaBiglietto(true,TipoVendita.RIVENDITORE);
         vbdao.save(vb);
