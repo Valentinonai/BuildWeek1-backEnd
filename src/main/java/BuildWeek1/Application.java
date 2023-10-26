@@ -338,7 +338,26 @@ public class Application {
 
                             }else throw new Exception("Il mezzo non esiste");
                             }
-                            case 14->{}
+                            case 14->{
+                                System.out.println("Inserisce il mezzo di cui vuoi controllare i biglietti");
+                                int mezzo_id = Integer.parseInt(scanner.nextLine());
+
+
+                                System.out.println("Inserisci anno data iniziale");
+                                int annoi=Integer.parseInt(scanner.nextLine());
+                                System.out.println("Inserisci mese data iniziale");
+                                int mesei=Integer.parseInt(scanner.nextLine());
+                                System.out.println("Inserisci giorno data iniziale");
+                                int giornoi=Integer.parseInt(scanner.nextLine());
+                                System.out.println("Inserisci anno data finale");
+                                int annof=Integer.parseInt(scanner.nextLine());
+                                System.out.println("Inserisci mese data finale");
+                                int mesef=Integer.parseInt(scanner.nextLine());
+                                System.out.println("Inserisci giorno data finale");
+                                int giornof=Integer.parseInt(scanner.nextLine());
+                                long num_ticket = ticketDao.getTicketByMezzo(mezzo_id, LocalDate.of(annoi,mesei,giornoi).atStartOfDay(),LocalDate.of(annof,mesef,giornof).atStartOfDay());
+                                System.out.println("Il mezzo " + mezzo_id + " ha " + num_ticket + (num_ticket == 1 ? " biglietto" : " biglietti"));
+                            }
                             case 0->{
                                 break Exit;
                             }
@@ -354,10 +373,12 @@ public class Application {
                 while (true) {
                     try{
                         if (user.getTessera() == null) {
-                            System.out.println("1:acquista singleride 2:acquista tessera 3: esci");
+                            System.out.println("1:acquista singleride 2:acquista tessera 3:valida biglietto 0: esci");
                             int risp = Integer.parseInt(scanner.nextLine());
                             if (risp == 1) {
-                                Ticket t = new Ticket(LocalDate.now(), TicketType.SINGLERIDE, user, vbdao.getById(10));
+                                System.out.println("Inserisci codice distributore");
+                                int distr=Integer.parseInt(scanner.nextLine());
+                                Ticket t = new Ticket(LocalDate.now(), TicketType.SINGLERIDE, user, vbdao.getById(distr));
                                 ticketDao.save(t);
                             } else if (risp == 2) {
                                 Tessera tessera = new Tessera(LocalDate.now(), user);
@@ -366,46 +387,198 @@ public class Application {
                                 int risp2 = Integer.parseInt(scanner.nextLine());
                                 switch (risp2) {
                                     case 1 -> {
-                                        Ticket t = new Ticket(LocalDate.now(), TicketType.SINGLERIDE, user, vbdao.getById(10));
+                                        System.out.println("Inserisci codice distributore");
+                                        int distr=Integer.parseInt(scanner.nextLine());
+                                        Ticket t = new Ticket(LocalDate.now(), TicketType.SINGLERIDE, user, vbdao.getById(distr));
                                         ticketDao.save(t);
                                     }
                                     case 2 -> {
-                                        Ticket t = new Ticket(LocalDate.now(), TicketType.WEEKLY, user, vbdao.getById(11));
+                                        System.out.println("Inserisci codice distributore");
+                                        int distr=Integer.parseInt(scanner.nextLine());
+                                        Ticket t = new Ticket(LocalDate.now(), TicketType.WEEKLY, user, vbdao.getById(distr));
                                         ticketDao.save(t);
                                     }
                                     case 3 -> {
-                                        Ticket t = new Ticket(LocalDate.now(), TicketType.MONTHLY, user, vbdao.getById(12));
+                                        System.out.println("Inserisci codice distributore");
+                                        int distr=Integer.parseInt(scanner.nextLine());
+                                        Ticket t = new Ticket(LocalDate.now(), TicketType.MONTHLY, user, vbdao.getById(distr));
                                         ticketDao.save(t);
                                     }
                                 }
-                            } else if (risp == 3) {
+                            }else if(risp==3){
+                                try {
+
+
+                                    System.out.println("inserisci codice biglietto");
+                                    long codTicket = Integer.parseInt(scanner.nextLine());
+                                    Ticket t = ticketDao.getById(codTicket);
+                                    if (t.getTipo() == TicketType.SINGLERIDE) {
+                                        if (t.getUser().getId() == user.getId()) {
+                                            t.setDataValidazione(LocalDateTime.now());
+                                            System.out.println("Inserisci il mezzo su cui utilizzare il singleride");
+                                            int mezzo = Integer.parseInt(scanner.nextLine());
+                                            Mezzo mezzo1 = mezzoDao.getById(mezzo);
+                                            em.refresh(t);
+                                            if (mezzo1!=null) {
+                                                t.setDataValidazione(LocalDateTime.now());
+                                                t.setMezzi(mezzo1);
+                                                ticketDao.save(t);
+                                                System.out.println("Ticket validato");
+
+
+                                            } else throw new Exception("Hai selezionato un mezzo inesistente");
+
+                                        } else {
+                                            System.out.println("Non hai nessun biglietto con codice " + codTicket);
+                                        }
+                                    } else {
+                                        if (t.getUser().getId() == user.getId()) {
+                                            t.setDataValidazione(LocalDateTime.now());
+                                            ticketDao.save(t);
+                                            System.out.println("Ticket validato");
+                                        } else {
+                                            System.out.println("Non hai nessun biglietto con codice " + codTicket);
+                                        }
+                                    }
+
+                                }catch (Exception e){
+                                    System.out.println(e.getMessage());
+                                }
+                            }
+                            else if (risp == 0) {
                                 break ExitCiclo;
                             }
                         } else {
                             Tessera tessera = user.getTessera();
-                            System.out.println("1:acquista singleride 2:acquista settimanale 3:acquista mensile 4:valida abbonamento 5:Esci");
+                            if(tessera.getDataScadenza().isBefore(LocalDate.now()))
+                            {
+                                System.out.println("1:acquista singleride 2:rinnova tessera 0: esci");
+                                int risp = Integer.parseInt(scanner.nextLine());
+                                if (risp == 1) {
+                                    System.out.println("Inserisci codice distributore");
+                                    int distr=Integer.parseInt(scanner.nextLine());
+                                    Ticket t = new Ticket(LocalDate.now(), TicketType.SINGLERIDE, user, vbdao.getById(distr));
+                                    ticketDao.save(t);
+                                } else if (risp == 2) {
+                                  tessera.setDataScadenza(LocalDate.now().plusDays(365));
+                                    tesseraDao.save(tessera);
+                                    System.out.println("Tessera rinnovata");
+                                    em.refresh(tessera);
+                                    System.out.println("1:acquista singleride 2:acquista settimanale 3:acquista mensile");
+                                    int risp2 = Integer.parseInt(scanner.nextLine());
+                                    System.out.println("Inserisci codice distributore");
+                                    int distr=Integer.parseInt(scanner.nextLine());
+                                    switch (risp2) {
+                                        case 1 -> {
+                                            Ticket t = new Ticket(LocalDate.now(), TicketType.SINGLERIDE, user, vbdao.getById(distr));
+                                            ticketDao.save(t);
+                                        }
+                                        case 2 -> {
+                                            Ticket t = new Ticket(LocalDate.now(), TicketType.WEEKLY, user, vbdao.getById(distr));
+                                            ticketDao.save(t);
+                                        }
+                                        case 3 -> {
+                                            Ticket t = new Ticket(LocalDate.now(), TicketType.MONTHLY, user, vbdao.getById(distr));
+                                            ticketDao.save(t);
+                                        }
+                                    }
+                                } else if (risp == 0) {
+                                    break ExitCiclo;
+                                }
+                                em.refresh(user);
+                            }
+                            System.out.println("1:acquista singleride 2:acquista settimanale 3:acquista mensile 4:valida ticket 5:Biglietti acquistati 6:Verifica validità tessera 0:Esci");
                             int risp2 = Integer.parseInt(scanner.nextLine());
+
                             switch (risp2) {
                                 case 1 -> {
-                                    Ticket t = new Ticket(LocalDate.now(), TicketType.SINGLERIDE, user, vbdao.getById(10));
+                                    System.out.println("Inserisci codice distributore");
+                                    int distr=Integer.parseInt(scanner.nextLine());
+                                    Ticket t = new Ticket(LocalDate.now(), TicketType.SINGLERIDE, user, vbdao.getById(distr));
                                     ticketDao.save(t);
                                 }
                                 case 2 -> {
-                                    Ticket t = new Ticket(LocalDate.now(), TicketType.WEEKLY, user, vbdao.getById(11));
+                                    System.out.println("Inserisci codice distributore");
+                                    int distr=Integer.parseInt(scanner.nextLine());
+                                    Ticket t = new Ticket(LocalDate.now(), TicketType.WEEKLY, user, vbdao.getById(distr));
                                     ticketDao.save(t);
                                 }
                                 case 3 -> {
-                                    Ticket t = new Ticket(LocalDate.now(), TicketType.MONTHLY, user, vbdao.getById(12));
+                                    System.out.println("Inserisci codice distributore");
+                                    int distr=Integer.parseInt(scanner.nextLine());
+                                    Ticket t = new Ticket(LocalDate.now(), TicketType.MONTHLY, user, vbdao.getById(distr));
                                     ticketDao.save(t);
                                 }
                                 case 4 -> {
-                                    System.out.println("inserisci codice biglietto");
-                                    long codTicket = Integer.parseInt(scanner.nextLine());
-                                    Ticket t = ticketDao.getById(codTicket);
-                                    t.setDataValidazione(LocalDateTime.now());
-                                    ticketDao.save(t);
+                                    try {
 
-                                } case 5->{
+
+                                        System.out.println("inserisci codice biglietto");
+                                        long codTicket = Integer.parseInt(scanner.nextLine());
+                                        Ticket t = ticketDao.getById(codTicket);
+                                        if (t.getTipo() == TicketType.SINGLERIDE) {
+                                            if (t.getUser().getId() == user.getId()) {
+                                                t.setDataValidazione(LocalDateTime.now());
+                                                System.out.println("Inserisci il mezzo su cui utilizzare il singleride");
+                                                int mezzo = Integer.parseInt(scanner.nextLine());
+                                                Mezzo mezzo1 = mezzoDao.getById(mezzo);
+                                                em.refresh(t);
+                                                if (mezzo1!=null) {
+                                                    t.setDataValidazione(LocalDateTime.now());
+                                                    t.setMezzi(mezzo1);
+                                                    ticketDao.save(t);
+                                                    System.out.println("Ticket validato");
+
+
+                                                } else throw new Exception("Hai selezionato un mezzo inesistente");
+
+                                            } else {
+                                                System.out.println("Non hai nessun biglietto con codice " + codTicket);
+                                            }
+                                        } else {
+                                            if (t.getUser().getId() == user.getId()) {
+                                                t.setDataValidazione(LocalDateTime.now());
+                                                ticketDao.save(t);
+                                                System.out.println("Ticket validato");
+                                            } else {
+                                                System.out.println("Non hai nessun biglietto con codice " + codTicket);
+                                            }
+                                        }
+
+                                    }catch (Exception e){
+                                        System.out.println(e.getMessage());
+                                    }
+
+                                }
+                                case 5 -> {
+                                   Map<TicketType,List<Ticket>> map= ticketDao.getAllTicketForUser(user.getId());
+                                    if (map.get(TicketType.SINGLERIDE) != null) {
+                                        System.out.println("SINGLERIDE");
+                                        map.get(TicketType.SINGLERIDE).forEach(System.out::println);
+                                    }
+
+
+                                    if (map.get(TicketType.WEEKLY) != null) {
+                                        System.out.println("WEEKLY");
+                                        map.get(TicketType.WEEKLY).forEach(System.out::println);
+                                    }
+                                    if (map.get(TicketType.MONTHLY) != null) {
+                                        System.out.println("MONTHLY");
+                                        map.get(TicketType.MONTHLY).forEach(System.out::println);
+                                    }
+                                }
+                           case 6-> {
+                               if(user.getTessera().getDataScadenza().isBefore(LocalDate.now())){
+                                   System.out.println("Tessera scaduta");
+                               }
+                                else
+                               {
+                                   System.out.println("Tessera attiva-data di scadenza: " + user.getTessera().getDataScadenza());
+                               }
+
+
+                           }
+                                case 0->{
                                 break ExitCiclo;
                                 }
                             }
