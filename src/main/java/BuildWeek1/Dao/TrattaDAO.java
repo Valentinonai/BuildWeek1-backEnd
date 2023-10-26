@@ -1,5 +1,6 @@
 package BuildWeek1.Dao;
 
+import BuildWeek1.entities.Mezzo;
 import BuildWeek1.entities.Ticket;
 import BuildWeek1.entities.Tratta;
 
@@ -35,5 +36,11 @@ public class TrattaDAO {
             System.out.println("la tratta con l'Id: " + id + "non è stata trovata");
         }
     }
+    public long countTratteByMezzo(long mezzoId, long trattaId) throws Exception {
 
+      Tratta t= getById(trattaId);
+      MezzoDao md=new MezzoDao(em);
+      Mezzo m=md.getById(mezzoId);
+        return t.getTrattaPerMezzo().get(m);
+    }
 }

@@ -216,10 +216,14 @@ public class Application {
                                 int id_mezzo=Integer.parseInt(scanner.nextLine());
                                 System.out.println("Inserisci tratta da assegnare al mezzo: "+ id_mezzo);
                                 int id_tratta=Integer.parseInt(scanner.nextLine());
+                                System.out.println("Inserisci quante volte all'anno viene eseguita questa tratta da questo mezzo");
+                                int n=Integer.parseInt(scanner.nextLine());
                                 Tratta tratta=trattaDAO.getById(id_tratta);
                                 Mezzo m=mezzoDao.getById(id_mezzo);
+
                                 em.refresh(m);
                                 em.refresh(tratta);
+                                tratta.setTrattaPerMezzo(n,m);
                                 if(tratta!=null && m!=null){
                                     m.setTratta(tratta);
                                     mezzoDao.save(m);
@@ -236,6 +240,12 @@ public class Application {
                                 else userSet.forEach(elem-> System.out.println("User id: "+ elem.getId()+" user email: "+elem.getEmail()));
                             }
                             case 10->{
+                                System.out.println("Inserisci numero mezzo");
+                                int mezzo=Integer.parseInt(scanner.nextLine());
+                                System.out.println("Inserisci numero tratta");
+                                int tratta=Integer.parseInt(scanner.nextLine());
+                                long n=trattaDAO.countTratteByMezzo(mezzo,tratta);
+                                System.out.println("Il mezzo "+mezzo+" ha percorso la tratta  "+tratta+" "+n+(n==1?" volta":" volte") );
 
                             }
                             case 11->{
@@ -281,7 +291,9 @@ public class Application {
 
 
                             }
-                            case 13->{}
+                            case 13->{
+                                System.out.println();
+                            }
                             case 14->{}
                             case 0->{
                                 break Exit;
