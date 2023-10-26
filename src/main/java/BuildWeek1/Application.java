@@ -31,6 +31,8 @@ public class Application {
         MezzoDao mezzoDao = new MezzoDao(em);
         VenditaBigliettoDao vbdao = new VenditaBigliettoDao(em);
         TrattaDAO trattaDAO=new TrattaDAO(em);
+        ServizioDao servizioDao=new ServizioDao(em);
+        ManutenzioneDao manutenzioneDao=new ManutenzioneDao(em);
 
 
         /*VenditaBiglietto vb = new VenditaBiglietto(true, TipoVendita.RIVENDITORE);
@@ -292,7 +294,22 @@ public class Application {
 
                             }
                             case 13->{
-                                System.out.println();
+                                System.out.println("Inserisci mezzo");
+                                int m=Integer.parseInt(scanner.nextLine());
+                            Mezzo mezzo=mezzoDao.getById(m);
+                            if(mezzo!=null){
+                                try{
+                                    long ts=servizioDao.tempoTotale(m);
+                                    if(ts>0)
+                                    System.out.println("Il mezzo "+m+" è stato in servizio per "+ts+(ts==1?" minuto":" minuti"));
+                                    long tm=manutenzioneDao.tempoTotale(m);
+                                    if(tm>0)
+                                    System.out.println("Il mezzo "+m+" è stato in manutenzione per "+tm+(tm==1?" minuto":" minuti"));
+                                }catch (Exception e){
+                                    System.out.println(e.getMessage());
+                                }
+
+                            }else throw new Exception("Il mezzo non esiste");
                             }
                             case 14->{}
                             case 0->{

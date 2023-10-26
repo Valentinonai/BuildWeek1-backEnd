@@ -4,6 +4,7 @@ import BuildWeek1.entities.Manutenzione;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 public class ManutenzioneDao {
@@ -56,5 +57,18 @@ public class ManutenzioneDao {
             return q.getSingleResult();
 
         }
+    public long tempoTotale(long mezzo_id) throws Exception {
+            long x = 0;
+            try
+            {
+                TypedQuery<Long> q=em.createQuery("SELECT SUM(m.tempoManutenzione) FROM Manutenzione m WHERE m.mezzo.id=:mezzo_id", Long.class);
+                q.setParameter("mezzo_id",mezzo_id);
+              x= q.getSingleResult();
+            }catch (Exception e){
+                throw new Exception("Il mezzo selezionato non è mai stato in manutenzione");
+            }
+
+        return x;
+    }
     }
 
