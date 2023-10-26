@@ -1,6 +1,8 @@
 package BuildWeek1.entities;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -13,6 +15,9 @@ public class Tratta {
     private String capolinea;
     private long tempoStimato;
     private long tempoEffettivo;
+    @ElementCollection
+    @Column(name = "mezzo_per_tratta")
+    private Map<Mezzo,Integer> trattaPerMezzo;
 
     @ManyToMany
     @JoinTable(
@@ -40,6 +45,14 @@ public class Tratta {
         this.capolinea = capolinea;
         this.tempoStimato = tempoStimato;
         this.tempoEffettivo = tempoEffettivo;
+    }
+
+    public Map<Mezzo, Integer> getTrattaPerMezzo() {
+        return trattaPerMezzo;
+    }
+
+    public void setTrattaPerMezzo(int trattaPerMezzo,Mezzo m) {
+        this.trattaPerMezzo.put(m,trattaPerMezzo);
     }
 
     public String getZonaPartenza() {

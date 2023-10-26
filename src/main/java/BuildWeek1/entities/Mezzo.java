@@ -1,8 +1,13 @@
 package BuildWeek1.entities;
 
 
+import BuildWeek1.Dao.ManutenzioneDao;
+import BuildWeek1.Dao.MezzoDao;
+import BuildWeek1.Dao.ServizioDao;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -48,15 +53,21 @@ public class Mezzo {
 
     }
 
-    public Mezzo(TipoMezzo tipoMezzo, long numeroPosti, boolean inManutenzione, boolean inServizio) {
-        this.tipoMezzo = tipoMezzo;
-        this.numeroPosti = numeroPosti;
-        this.inManutenzione = inManutenzione;
-        this.inServizio = inServizio;
-
-
+    public List<Manutenzione> getManutenzione() {
+        return manutenzione;
     }
 
+    public void setManutenzione(List<Manutenzione> manutenzione) {
+        this.manutenzione = manutenzione;
+    }
+
+    public List<Servizio> getServizi() {
+        return servizi;
+    }
+
+    public void setServizi(List<Servizio> servizi) {
+        this.servizi = servizi;
+    }
 
     public long getId() {
         return id;
@@ -66,29 +77,39 @@ public class Mezzo {
         return inManutenzione;
     }
 
-    public void setInManutenzione(boolean inManutenzione) {
-        if (inServizio ) {
-            this.inServizio=false;
-            this.inManutenzione = inManutenzione;
-            System.out.println("Il veicolo è stato messo in manutenzione.");
+    public void setInManutenzione(boolean inManutenzione,EntityManager em,int rnd) {
+        this.inManutenzione = inManutenzione;
+        ManutenzioneDao sd=new ManutenzioneDao(em);
+        if(inManutenzione){
+            sd.save(new Manutenzione(LocalDateTime.now(),this));
+            System.out.println("Mezzo in manutenzione");
         }else {
-            this.inManutenzione = inManutenzione;
-        }
+             Manutenzione manutenzione=sd.getManutenzioneNull();
+            manutenzione.setDataFine(manutenzione.getDataInizio().plusDays(rnd));
+            sd.save(manutenzione);
+            System.out.println("Mezzo non più in manutenzione");
 
+        }
     }
 
 
     public boolean isInServizio() {
         return inServizio;
+
     }
 
-    public void setInServizio(boolean inServizio) {
-        if (inManutenzione ) {
-
-            System.err.println("Il veicolo è ora in manutenzione e non può essere in servizio.");
-
-        }else{ this.inServizio = inServizio;}
-
+    public void setInServizio(boolean inServizio,EntityManager em,int rnd) {
+        this.inServizio = inServizio;
+        ServizioDao sd=new ServizioDao(em);
+        if(inServizio){
+            sd.save(new Servizio(LocalDateTime.now(),this));
+            System.out.println("Mezzo in servizio");
+        }else {
+            Servizio servizio=sd.getServiceNull();
+            servizio.setDataFine(servizio.getDataInizio().plusDays(rnd));
+            sd.save(servizio);
+            System.out.println("Mezzo non più in servizio");
+        }
     }
 
     public void setManutenzione(List<Manutenzione> manutenzione) {

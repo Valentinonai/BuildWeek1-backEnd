@@ -1,16 +1,12 @@
 package BuildWeek1.Dao;
 
 import BuildWeek1.entities.Mezzo;
-import BuildWeek1.entities.Tessera;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Id;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import java.util.List;
+
 
 public class MezzoDao {
 
@@ -63,23 +59,11 @@ public class MezzoDao {
     public void cambiaStatoServizio(int mezzoId, boolean nuovoStatoServizio) {
         Mezzo mezzo = MezzoDao.getById(mezzoId);
 
-        if (mezzo == null) {
-            System.err.println("Mezzo non trovato.");
-        } else {
-
-            mezzo.setInServizio(nuovoStatoServizio);
-
-
-            MezzoDao.save(mezzo);
-           ;
-
-            if (nuovoStatoServizio) {
-                System.out.println("Il veicolo è stato messo in servizio.");
-            } else {
-                System.out.println("Il veicolo è stato messo fuori servizio.");
-            }
-        }
-    }
+public List<Mezzo> findMezziDisp(){
+    TypedQuery<Mezzo> q = em.createQuery("SELECT m FROM Mezzo m WHERE m.inManutenzione=false", Mezzo.class);
+    return q.getResultList();
+}
+}
 
     public void cambiaStatoManutenzione(int mezzoId, boolean nuovoStatoManutenzione) {
         Mezzo mezzo = MezzoDao.getById(mezzoId);

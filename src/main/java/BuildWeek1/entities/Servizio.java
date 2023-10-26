@@ -19,9 +19,9 @@ public class Servizio {
     @JoinColumn(name = "mezzo_id", nullable = false)
     private Mezzo mezzo;
 
-    @Column(name = "durata_servizio")
+    @Column(name = "min_durata_servizio")
 
-    private Duration durataServizio;
+    private long durataServizio;
 
     public Servizio() {
     }
@@ -30,6 +30,8 @@ public class Servizio {
         this.dataInizio = dataInizio;
         this.mezzo = mezzo;
     }
+
+
 
     public LocalDateTime getDataInizio() {
         return dataInizio;
@@ -42,14 +44,14 @@ public class Servizio {
     public void setDataFine(LocalDateTime dataFine) {
         this.dataFine = dataFine;
         Duration durata = Duration.between(this.dataInizio, this.dataFine);
-        this.durataServizio = durata;
+        this.durataServizio = durata.getSeconds()/60;
     }
 
     public Mezzo getMezzo() {
         return mezzo;
     }
 
-    public Duration getTempoManutenzione() {
+    public long getTempoManutenzione() {
         return durataServizio;
     }
 
