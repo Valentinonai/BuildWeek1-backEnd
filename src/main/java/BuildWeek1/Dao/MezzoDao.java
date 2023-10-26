@@ -1,10 +1,14 @@
 package BuildWeek1.Dao;
 
 import BuildWeek1.entities.Mezzo;
+import BuildWeek1.entities.Tessera;
+import antlr.collections.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.math.BigInteger;
 
 public class MezzoDao {
 
@@ -49,11 +53,32 @@ public class MezzoDao {
         }
     }
 
-    public Integer getMezzoPieno(Mezzo mezzo) {
-        TypedQuery getMezzoPieno = em.createQuery("SELECT COUNT(m.user)FROM Mezzo m " +
-                "WHERE id = :mezzo", Mezzo.class);
-        getMezzoPieno.setParameter(":mezzo", mezzo);
-        return (Integer) getMezzoPieno.getSingleResult();
+        public Mezzo getById(long id) throws Exception {
+            Mezzo m=em.find(Mezzo.class, id);
+            if(m==null) throw new Exception("Il mezzo inserito non esiste");
+            else return m;
+        }
+
+        public void delete(long id) {
+            try {
+                EntityTransaction t = em.getTransaction();
+                t.begin();
+               Mezzo found = em.find(Mezzo.class, id);
+                if (found != null) {
+                    em.remove(found);
+                    t.commit();
+                    System.out.println("Elemento eliminato");
+                } else System.out.println("Elemento non trovato");
+
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    public int getMezzoPieno(long mezzo) {
+       TypedQuery<Integer> q=em.createQuery("SELECT size(m.user) FROM Mezzo m WHERE m.id=:mezzo",Integer.class);
+       q.setParameter("mezzo", mezzo);
+        return q.getSingleResult();
     }
 
 
