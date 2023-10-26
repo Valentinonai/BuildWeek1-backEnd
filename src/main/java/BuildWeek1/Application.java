@@ -106,7 +106,7 @@ public class Application {
                         System.out.println("1:Numero biglietti in un intervallo di tempo"+System.lineSeparator()+"2:Numero biglietti per tipo vendita"+System.lineSeparator()+"3:Crea tratta"+System.lineSeparator()+"4:inserisci tempo effettivo tratta"+System.lineSeparator()+"5:aggiungi persona al mezzo"+System.lineSeparator()+"6:togli persona dal mezzo"+System.lineSeparator()+"7:crea mezzo"+System.lineSeparator()+"8:assegna tratta a mezzo"+System.lineSeparator()+"9:Mostra persone su un mezzo"+System.lineSeparator()+"10:Calcola numero di volte un mezzo ha effettuato una tratta"+System.lineSeparator()+"11:Mostra numero mezzi disponibili"+System.lineSeparator()+"12:Modifica stato di un mezzo"+System.lineSeparator()+"13:Tempo totale manutenzione e servizio di un mezzo"+System.lineSeparator()+"14:Numero biglietti per mezzo in periodo di tempo"+System.lineSeparator()+"0:Esci");
                         int risp = Integer.parseInt(scanner.nextLine());
                         switch (risp) {
-                            case 1 -> {
+                            case 1->{
                                 System.out.println("Inserisci anno data iniziale");
                                 int annoi=Integer.parseInt(scanner.nextLine());
                                 System.out.println("Inserisci mese data iniziale");
@@ -126,7 +126,7 @@ public class Application {
                                     System.out.println("Tipo: " + tipo.name() + ", Totale: " + total);
                                 }
                             }
-                            case 2 -> {
+                            case 2->{
                                 List<Object[]> ticketTipoVendita = ticketDao.getTicketsSoldByTipoVendita();
                                 for (Object[] result : ticketTipoVendita) {
                                     TipoVendita tipoVendita = (TipoVendita) result[0];
@@ -235,9 +235,52 @@ public class Application {
                                 if(userSet.size()==0) throw new Exception("Non ci sono passeggeri");
                                 else userSet.forEach(elem-> System.out.println("User id: "+ elem.getId()+" user email: "+elem.getEmail()));
                             }
-                            case 10->{}
-                            case 11->{}
-                            case 12->{}
+                            case 10->{
+
+                            }
+                            case 11->{
+                                mezzoDao.findMezziDisp().forEach(System.out::println);
+                            }
+                            case 12->{
+                                try
+                                {
+                                    System.out.println("1:Metti mezzo in servizio 2:Metti mezzo in manutenzione 3:Chiudi servizio 4:Chiudi manutenzione");
+                                    int r=Integer.parseInt(scanner.nextLine());
+                                    System.out.println("Inserisci mezzo");
+                                    long id_m=Long.parseLong(scanner.nextLine());
+                                    Mezzo m=mezzoDao.getById(id_m);
+                                    if(m!=null) {
+                                        switch (r) {
+                                            case 1 -> {
+                                                    if(!m.isInManutenzione() && !m.isInServizio()){
+                                                        m.setInServizio(true,em,0);
+                                                    }else throw new Exception("Mezzo già in servizio o in manutenzione");
+                                            }
+                                            case 2 -> {
+                                                if(!m.isInManutenzione() && !m.isInServizio()){
+                                                    m.setInManutenzione(true,em,0);
+                                                }else throw new Exception("Mezzo già in servizio o in manutenzione");
+                                            }
+                                            case 3 -> {
+                                                if(!m.isInManutenzione() && m.isInServizio()){
+                                                    m.setInServizio(false,em,rnd.nextInt(1,10));
+                                                }else throw new Exception("Mezzo non in servizio o in manutenzione");
+                                            }
+                                            case 4 -> {
+                                                if(m.isInManutenzione() && !m.isInServizio()){
+                                                    m.setInManutenzione(false,em,rnd.nextInt(1,10));
+                                                }else throw new Exception("Mezzo non in servizio o in manutenzione");
+                                            }
+                                        }
+                                    }
+                                    else throw new Exception("Mezzo non trovato");
+                                }catch (Exception e)
+                                {
+                                    System.out.println(e.getMessage());
+                                }
+
+
+                            }
                             case 13->{}
                             case 14->{}
                             case 0->{

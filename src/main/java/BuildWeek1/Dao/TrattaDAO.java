@@ -5,6 +5,7 @@ import BuildWeek1.entities.Tratta;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
 public class TrattaDAO {
     private final EntityManager em;
@@ -34,4 +35,5 @@ public class TrattaDAO {
             System.out.println("la tratta con l'Id: " + id + "non è stata trovata");
         }
     }
+
 }
