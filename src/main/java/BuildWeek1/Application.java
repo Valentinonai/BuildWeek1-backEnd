@@ -326,7 +326,11 @@ public class Application {
                                 break Exit;
                             }
                         }
-                    } catch (Exception e) {
+                    }catch (NumberFormatException e)
+                    {
+                        System.out.println("Valore inserito non valido");
+                    }
+                    catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
                 }
