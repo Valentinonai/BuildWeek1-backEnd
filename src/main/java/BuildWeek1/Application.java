@@ -5,14 +5,9 @@ import BuildWeek1.entities.*;
 import com.github.javafaker.Faker;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDate;
 import java.util.*;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
 
 public class Application {
 
@@ -105,23 +100,23 @@ public class Application {
                     try {
 
                         System.out.println("--------------------------------------------------------------------------");
-                        System.out.println("1:Numero biglietti in un intervallo di tempo"+System.lineSeparator()+"2:Numero biglietti per tipo vendita"+System.lineSeparator()+"3:Crea tratta"+System.lineSeparator()+"4:inserisci tempo effettivo tratta"+System.lineSeparator()+"5:aggiungi persona al mezzo"+System.lineSeparator()+"6:togli persona dal mezzo"+System.lineSeparator()+"7:crea mezzo"+System.lineSeparator()+"8:assegna tratta a mezzo"+System.lineSeparator()+"9:Mostra persone su un mezzo"+System.lineSeparator()+"10:Calcola numero di volte un mezzo ha effettuato una tratta"+System.lineSeparator()+"11:Mostra numero mezzi disponibili"+System.lineSeparator()+"12:Modifica stato di un mezzo"+System.lineSeparator()+"13:Tempo totale manutenzione e servizio di un mezzo"+System.lineSeparator()+"14:Numero biglietti per mezzo in periodo di tempo"+System.lineSeparator()+"0:Esci");
+                        System.out.println("1:Numero biglietti in un intervallo di tempo" + System.lineSeparator() + "2:Numero biglietti per tipo vendita" + System.lineSeparator() + "3:Crea tratta" + System.lineSeparator() + "4:inserisci tempo effettivo tratta" + System.lineSeparator() + "5:aggiungi persona al mezzo" + System.lineSeparator() + "6:togli persona dal mezzo" + System.lineSeparator() + "7:crea mezzo" + System.lineSeparator() + "8:assegna tratta a mezzo" + System.lineSeparator() + "9:Mostra persone su un mezzo" + System.lineSeparator() + "10:Calcola numero di volte un mezzo ha effettuato una tratta" + System.lineSeparator() + "11:Mostra numero mezzi disponibili" + System.lineSeparator() + "12:Modifica stato di un mezzo" + System.lineSeparator() + "13:Tempo totale manutenzione e servizio di un mezzo" + System.lineSeparator() + "14:Numero biglietti per mezzo in periodo di tempo" + System.lineSeparator() + "0:Esci");
                         int risp = Integer.parseInt(scanner.nextLine());
                         switch (risp) {
                             case 1->{
                                 System.out.println("Inserisci anno data iniziale");
-                                int annoi=Integer.parseInt(scanner.nextLine());
+                                int annoi = Integer.parseInt(scanner.nextLine());
                                 System.out.println("Inserisci mese data iniziale");
-                                int mesei=Integer.parseInt(scanner.nextLine());
+                                int mesei = Integer.parseInt(scanner.nextLine());
                                 System.out.println("Inserisci giorno data iniziale");
-                                int giornoi=Integer.parseInt(scanner.nextLine());
+                                int giornoi = Integer.parseInt(scanner.nextLine());
                                 System.out.println("Inserisci anno data finale");
-                                int annof=Integer.parseInt(scanner.nextLine());
+                                int annof = Integer.parseInt(scanner.nextLine());
                                 System.out.println("Inserisci mese data finale");
-                                int mesef=Integer.parseInt(scanner.nextLine());
+                                int mesef = Integer.parseInt(scanner.nextLine());
                                 System.out.println("Inserisci giorno data finale");
-                                int giornof=Integer.parseInt(scanner.nextLine());
-                                List<Object[]> ticketRange = ticketDao.getTotalTicketInTimeRangeGroupedByType(LocalDate.of(annoi,mesei,giornoi), LocalDate.of(annof,mesef,giornof));
+                                int giornof = Integer.parseInt(scanner.nextLine());
+                                List<Object[]> ticketRange = ticketDao.getTotalTicketInTimeRangeGroupedByType(LocalDate.of(annoi, mesei, giornoi), LocalDate.of(annof, mesef, giornof));
                                 for (Object[] result : ticketRange) {
                                     TicketType tipo = (TicketType) result[0];
                                     Long total = (Long) result[1];
@@ -136,84 +131,79 @@ public class Application {
                                     System.out.println("Tipo Vendita: " + tipoVendita + ", Totale: " + total);
                                 }
                             }
-                            case 3->{
+                            case 3 -> {
 
                                 System.out.println("Inserisci città di partenza");
-                                String cittaPartenza=scanner.nextLine();
+                                String cittaPartenza = scanner.nextLine();
                                 System.out.println("Inserisci città di arrivo");
-                                String cittaArrivo=scanner.nextLine();
+                                String cittaArrivo = scanner.nextLine();
                                 System.out.println("inserisci il tempo stimato in minuti");
-                                int t=Integer.parseInt(scanner.nextLine());
-                                Tratta tratta=new Tratta(cittaPartenza,cittaArrivo,t);
+                                int t = Integer.parseInt(scanner.nextLine());
+                                Tratta tratta = new Tratta(cittaPartenza, cittaArrivo, t);
                                 trattaDAO.save(tratta);
 
 
                             }
-                            case 4->{
+                            case 4 -> {
                                 System.out.println("Inserisci codice tratta da modificare");
-                                long id=Integer.parseInt(scanner.nextLine());
-                                Tratta t=trattaDAO.getById(id);
-                                System.out.println("Inserisci tempo in minuti effettivo tratta n: "+id);
-                                int tempo=Integer.parseInt(scanner.nextLine());
+                                long id = Integer.parseInt(scanner.nextLine());
+                                Tratta t = trattaDAO.getById(id);
+                                System.out.println("Inserisci tempo in minuti effettivo tratta n: " + id);
+                                int tempo = Integer.parseInt(scanner.nextLine());
                                 t.setTempoEffettivo(tempo);
                                 trattaDAO.save(t);
 
                             }
-                            case 5->{
+                            case 5 -> {
                                 System.out.println("Inserisci id mezzo");
-                                long idmezzo=Integer.parseInt(scanner.nextLine());
+                                long idmezzo = Integer.parseInt(scanner.nextLine());
                                 System.out.println("Inserisci id utente da aggiungere");
-                                long idutente=Integer.parseInt(scanner.nextLine());
-                               Mezzo mez= mezzoDao.getById(idmezzo);
+                                long idutente = Integer.parseInt(scanner.nextLine());
+                                Mezzo mez = mezzoDao.getById(idmezzo);
                                 em.refresh(mez);
-                            int numUser= mezzoDao.getMezzoPieno(mez.getId());
-                                Mezzo m=mezzoDao.getById(idmezzo);
+                                int numUser = mezzoDao.getMezzoPieno(mez.getId());
+                                Mezzo m = mezzoDao.getById(idmezzo);
                                 System.out.println(numUser);
-                              if(numUser>=  m.getNumeroPosti())
-                              {
-                                 throw new Exception("Non ci sono posti disponibili cambia mezzo");
-                              }
-
-                              else{
-                                if(userDao.getById(idutente)!=null) {
-                                    m.setUser(userDao.getById(idutente));
-                                    mezzoDao.save(m);
-                                }else throw new Exception("Utente non presente");
-                              }
+                                if (numUser >= m.getNumeroPosti()) {
+                                    throw new Exception("Non ci sono posti disponibili cambia mezzo");
+                                } else {
+                                    if (userDao.getById(idutente) != null) {
+                                        m.setUser(userDao.getById(idutente));
+                                        mezzoDao.save(m);
+                                    } else throw new Exception("Utente non presente");
+                                }
 
                             }
-                            case 6->{
+                            case 6 -> {
                                 System.out.println("Inserisci id mezzo");
-                                long idmezzo=Integer.parseInt(scanner.nextLine());
+                                long idmezzo = Integer.parseInt(scanner.nextLine());
                                 System.out.println("Inserisci id utente da scaricare");
-                                long idutente=Integer.parseInt(scanner.nextLine());
-                                Mezzo mez= mezzoDao.getById(idmezzo);
-                                int numUser= mezzoDao.getMezzoPieno(mez.getId());
-                                if(numUser==0)
-                                {
+                                long idutente = Integer.parseInt(scanner.nextLine());
+                                Mezzo mez = mezzoDao.getById(idmezzo);
+                                int numUser = mezzoDao.getMezzoPieno(mez.getId());
+                                if (numUser == 0) {
                                     throw new Exception("Non ci sono persone da scaricare");
-                                }
-                                else{
-                                    if(userDao.getById(idutente)!=null) {
+                                } else {
+                                    if (userDao.getById(idutente) != null) {
                                         mez.eliminaUtente(userDao.getById(idutente));
                                         mezzoDao.save(mez);
-                                    }else throw new Exception("Utente non presente");
+                                    } else throw new Exception("Utente non presente");
                                 }
 
                             }
-                            case 7->{
+                            case 7 -> {
                                 System.out.println("Inserisci tipo mezzo 1:tram 2:autobus");
-                                int ris=Integer.parseInt(scanner.nextLine());
+                                int ris = Integer.parseInt(scanner.nextLine());
                                 TipoMezzo t;
-                                if(ris==1) t=TipoMezzo.TRAM;
-                                else if(ris==2) t=TipoMezzo.AUTOBUS;
+                                if (ris == 1) t = TipoMezzo.TRAM;
+                                else if (ris == 2) t = TipoMezzo.AUTOBUS;
                                 else throw new Exception("Tipo mezzo non disponibile");
                                 System.out.println("Inserisci numero di posti disponibili");
-                                int posti=Integer.parseInt(scanner.nextLine());
-                                mezzoDao.save(new Mezzo(t,posti));
+                                int posti = Integer.parseInt(scanner.nextLine());
+                                mezzoDao.save(new Mezzo(t, posti));
                                 System.out.println("Mezzo salvato");
                             }
-                            case 8->{
+                            case 8 -> {
                                 System.out.println("Inserisci id mezzo");
                                 int id_mezzo=Integer.parseInt(scanner.nextLine());
                                 System.out.println("Inserisci tratta da assegnare al mezzo: "+ id_mezzo);
@@ -230,16 +220,17 @@ public class Application {
                                     m.setTratta(tratta);
                                     mezzoDao.save(m);
                                     System.out.println("Tratta associata");
-                                }else System.out.println("Il mezzo o la tratta non esistono");
+                                } else System.out.println("Il mezzo o la tratta non esistono");
 
                             }
-                            case 9->{
+                            case 9 -> {
                                 System.out.println("Inserisci il mezzo di cui vuoi controllare i passeggeri");
-                                int r=Integer.parseInt(scanner.nextLine());
-                                Mezzo m=mezzoDao.getById(r);
-                                Set<User> userSet=m.getUser();
-                                if(userSet.size()==0) throw new Exception("Non ci sono passeggeri");
-                                else userSet.forEach(elem-> System.out.println("User id: "+ elem.getId()+" user email: "+elem.getEmail()));
+                                int r = Integer.parseInt(scanner.nextLine());
+                                Mezzo m = mezzoDao.getById(r);
+                                Set<User> userSet = m.getUser();
+                                if (userSet.size() == 0) throw new Exception("Non ci sono passeggeri");
+                                else
+                                    userSet.forEach(elem -> System.out.println("User id: " + elem.getId() + " user email: " + elem.getEmail()));
                             }
                             case 10->{
                                 System.out.println("Inserisci numero mezzo");
@@ -335,8 +326,7 @@ public class Application {
                                 break Exit;
                             }
                         }
-                    }catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
                 }
@@ -431,8 +421,7 @@ public class Application {
                         else {
 
                             Tessera tessera = user.getTessera();
-                            if(tessera.getDataScadenza().isBefore(LocalDate.now()))
-                            {
+                            if (tessera.getDataScadenza().isBefore(LocalDate.now())) {
                                 System.out.println("1:acquista singleride 2:rinnova tessera 0: esci");
                                 int risp = Integer.parseInt(scanner.nextLine());
                                 if (risp == 1) {
@@ -441,7 +430,7 @@ public class Application {
                                     Ticket t = new Ticket(LocalDate.now(), TicketType.SINGLERIDE, user, vbdao.getById(distr));
                                     ticketDao.save(t);
                                 } else if (risp == 2) {
-                                  tessera.setDataScadenza(LocalDate.now().plusDays(365));
+                                    tessera.setDataScadenza(LocalDate.now().plusDays(365));
                                     tesseraDao.save(tessera);
                                     System.out.println("Tessera rinnovata");
                                     em.refresh(tessera);
@@ -532,7 +521,7 @@ public class Application {
 
                                 }
                                 case 5 -> {
-                                   Map<TicketType,List<Ticket>> map= ticketDao.getAllTicketForUser(user.getId());
+                                    Map<TicketType, List<Ticket>> map = ticketDao.getAllTicketForUser(user.getId());
                                     if (map.get(TicketType.SINGLERIDE) != null) {
                                         System.out.println("SINGLERIDE");
                                         map.get(TicketType.SINGLERIDE).forEach(System.out::println);
@@ -548,19 +537,18 @@ public class Application {
                                         map.get(TicketType.MONTHLY).forEach(System.out::println);
                                     }
                                 }
-                           case 6-> {
-                               if(user.getTessera().getDataScadenza().isBefore(LocalDate.now())){
-                                   System.out.println("Tessera scaduta");
-                               }
-                                else
-                               {
-                                   System.out.println("Tessera attiva-data di scadenza: " + user.getTessera().getDataScadenza());
-                               }
+                                case 6 -> {
+                                    if (user.getTessera().getDataScadenza().isBefore(LocalDate.now())) {
+                                        System.out.println("Tessera scaduta");
+                                    } else {
+                                        System.out.println("Tessera attiva-data di scadenza: " + user.getTessera().getDataScadenza());
+                                    }
 
 
-                           }
-                                case 0->{
-                                break ExitCiclo;
+                                }
+
+                                case 0 -> {
+                                    break ExitCiclo;
                                 }
                             }
 

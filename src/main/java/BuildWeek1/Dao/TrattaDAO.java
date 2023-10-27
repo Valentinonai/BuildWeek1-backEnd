@@ -10,22 +10,25 @@ import javax.persistence.Query;
 
 public class TrattaDAO {
     private final EntityManager em;
+
     public TrattaDAO(EntityManager em) {
         this.em = em;
     }
 
-    public void save (Tratta t) {
+    public void save(Tratta t) {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         em.persist(t);
         transaction.commit();
         System.out.println("Tratta salvata correttamente");
     }
+
     public Tratta getById(long id) {
         return em.find(Tratta.class, id);
     }
-    public void findAndDelete (long id){
-        Tratta found =  em.find(Tratta.class, id);
+
+    public void findAndDelete(long id) {
+        Tratta found = em.find(Tratta.class, id);
         if (found != null) {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
