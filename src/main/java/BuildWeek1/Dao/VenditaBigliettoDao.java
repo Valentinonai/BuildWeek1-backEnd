@@ -26,8 +26,10 @@ public class VenditaBigliettoDao {
         }
     }
 
-    public VenditaBiglietto getById(long id) {
-        return em.find(VenditaBiglietto.class, id);
+    public VenditaBiglietto getById(long id) throws Exception {
+        VenditaBiglietto vb=em.find(VenditaBiglietto.class, id);
+        if(vb.isIs_working()==true) return vb;
+        else throw new Exception("Punto vendita fuori servizio");
     }
 
     public void delete(long id) {
