@@ -435,6 +435,7 @@ public class Application {
                                     int distr = Integer.parseInt(scanner.nextLine());
                                     Ticket t = new Ticket(LocalDate.now(), TicketType.SINGLERIDE, user, vbdao.getById(distr));
                                     ticketDao.save(t);
+                                    em.refresh(t);
                                 } else if (risp == 2) {
                                     tessera.setDataScadenza(LocalDate.now().plusDays(365));
                                     tesseraDao.save(tessera);
@@ -448,14 +449,17 @@ public class Application {
                                         case 1 -> {
                                             Ticket t = new Ticket(LocalDate.now(), TicketType.SINGLERIDE, user, vbdao.getById(distr));
                                             ticketDao.save(t);
+                                            em.refresh(t);
                                         }
                                         case 2 -> {
                                             Ticket t = new Ticket(LocalDate.now(), TicketType.WEEKLY, user, vbdao.getById(distr));
                                             ticketDao.save(t);
+                                            em.refresh(t);
                                         }
                                         case 3 -> {
                                             Ticket t = new Ticket(LocalDate.now(), TicketType.MONTHLY, user, vbdao.getById(distr));
                                             ticketDao.save(t);
+                                            em.refresh(t);
                                         }
                                     }
                                 } else if (risp == 0) {
@@ -472,18 +476,21 @@ public class Application {
                                     int distr = Integer.parseInt(scanner.nextLine());
                                     Ticket t = new Ticket(LocalDate.now(), TicketType.SINGLERIDE, user, vbdao.getById(distr));
                                     ticketDao.save(t);
+                                    em.refresh(t);
                                 }
                                 case 2 -> {
                                     System.out.println("Inserisci codice distributore");
                                     int distr = Integer.parseInt(scanner.nextLine());
                                     Ticket t = new Ticket(LocalDate.now(), TicketType.WEEKLY, user, vbdao.getById(distr));
                                     ticketDao.save(t);
+                                    em.refresh(t);
                                 }
                                 case 3 -> {
                                     System.out.println("Inserisci codice distributore");
                                     int distr = Integer.parseInt(scanner.nextLine());
                                     Ticket t = new Ticket(LocalDate.now(), TicketType.MONTHLY, user, vbdao.getById(distr));
                                     ticketDao.save(t);
+                                    em.refresh(t);
                                 }
                                 case 4 -> {
                                     try {
