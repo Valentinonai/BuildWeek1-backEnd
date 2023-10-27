@@ -65,7 +65,7 @@ public class ManutenzioneDao {
                 q.setParameter("mezzo_id",mezzo_id);
               x= q.getSingleResult();
             }catch (Exception e){
-                throw new Exception("Il mezzo selezionato non è mai stato in manutenzione");
+                throw new Exception("Il mezzo selezionato non è mai stato in servizio o in manutenzione");
             }
 
         return x;
