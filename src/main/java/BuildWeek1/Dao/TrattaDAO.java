@@ -23,8 +23,10 @@ public class TrattaDAO {
         System.out.println("Tratta salvata correttamente");
     }
 
-    public Tratta getById(long id) {
-        return em.find(Tratta.class, id);
+    public Tratta getById(long id) throws Exception {
+      Tratta t= em.find(Tratta.class, id);
+      if(t!=null)   return t;
+      else throw new Exception("Tratta inesistente");
     }
 
     public void findAndDelete(long id) {
@@ -44,6 +46,8 @@ public class TrattaDAO {
       Tratta t= getById(trattaId);
       MezzoDao md=new MezzoDao(em);
       Mezzo m=md.getById(mezzoId);
-        return t.getTrattaPerMezzo().get(m);
+        Integer x = t.getTrattaPerMezzo().get(m);
+      if(x!=null) return x;
+      else throw new Exception("Questo mezzo non percorre questa tratta");
     }
 }
