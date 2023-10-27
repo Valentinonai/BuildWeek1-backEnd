@@ -1,14 +1,12 @@
 package BuildWeek1.Dao;
 
 import BuildWeek1.entities.Mezzo;
-import BuildWeek1.entities.Tessera;
-import antlr.collections.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.math.BigInteger;
+import java.util.List;
+
 
 public class MezzoDao {
 
@@ -61,7 +59,11 @@ public class MezzoDao {
     }
 
 
-    }
+public List<Mezzo> findMezziDisp(){
+    TypedQuery<Mezzo> q = em.createQuery("SELECT m FROM Mezzo m WHERE m.inManutenzione=false", Mezzo.class);
+    return q.getResultList();
+}
+}
 
 
 

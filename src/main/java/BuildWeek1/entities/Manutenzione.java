@@ -21,7 +21,7 @@ public class Manutenzione {
 
     @Column(name = "tempo_manutenzione")
 
-    private Duration tempoManutenzione;
+    private long tempoManutenzione;
 
     public Manutenzione() {
     }
@@ -42,14 +42,14 @@ public class Manutenzione {
     public void setDataFine(LocalDateTime dataFine) {
         this.dataFine = dataFine;
         Duration durata = Duration.between(this.dataInizio, this.dataFine);
-        this.tempoManutenzione = durata;
+        this.tempoManutenzione = durata.getSeconds()/60;
     }
 
     public Mezzo getMezzo() {
         return mezzo;
     }
 
-    public Duration getTempoManutenzione() {
+    public long getTempoManutenzione() {
         return tempoManutenzione;
     }
 

@@ -1,5 +1,7 @@
 package BuildWeek1.Dao;
 
+import BuildWeek1.entities.Mezzo;
+import BuildWeek1.entities.Ticket;
 import BuildWeek1.entities.Tratta;
 
 import javax.persistence.EntityManager;
@@ -37,12 +39,11 @@ public class TrattaDAO {
             System.out.println("la tratta con l'Id: " + id + "non è stata trovata");
         }
     }
+    public long countTratteByMezzo(long mezzoId, long trattaId) throws Exception {
 
-    public long countTratteByMezzo(long mezzoId, long trattaId) {
-        Query count = em.createQuery("SELECT COUNT(t) FROM Tratta t JOIN t.mezzo m WHERE m.id = :mezzoId AND t.id = :trattaId");
-        count.setParameter("mezzoId", mezzoId);
-        count.setParameter("trattaId", trattaId);
-        return (long) count.getSingleResult();
+      Tratta t= getById(trattaId);
+      MezzoDao md=new MezzoDao(em);
+      Mezzo m=md.getById(mezzoId);
+        return t.getTrattaPerMezzo().get(m);
     }
-
 }
