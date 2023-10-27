@@ -2,11 +2,9 @@ package BuildWeek1.entities;
 
 
 import BuildWeek1.Dao.ManutenzioneDao;
-import BuildWeek1.Dao.MezzoDao;
 import BuildWeek1.Dao.ServizioDao;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -53,8 +51,8 @@ public class Mezzo {
     }
 
     public Mezzo(TipoMezzo tipoMezzo, int numeroPosti) {
-     this.tipoMezzo=tipoMezzo;
-     this.numeroPosti=numeroPosti;
+        this.tipoMezzo = tipoMezzo;
+        this.numeroPosti = numeroPosti;
 
     }
 
@@ -82,14 +80,14 @@ public class Mezzo {
         return inManutenzione;
     }
 
-    public void setInManutenzione(boolean inManutenzione,EntityManager em,int rnd) {
+    public void setInManutenzione(long mezzo_id, boolean inManutenzione, EntityManager em, int rnd) {
         this.inManutenzione = inManutenzione;
-        ManutenzioneDao sd=new ManutenzioneDao(em);
-        if(inManutenzione){
-            sd.save(new Manutenzione(LocalDateTime.now(),this));
+        ManutenzioneDao sd = new ManutenzioneDao(em);
+        if (inManutenzione) {
+            sd.save(new Manutenzione(LocalDateTime.now(), this));
             System.out.println("Mezzo in manutenzione");
-        }else {
-             Manutenzione manutenzione=sd.getManutenzioneNull();
+        } else {
+            Manutenzione manutenzione = sd.getManutenzioneNull(mezzo_id);
             manutenzione.setDataFine(manutenzione.getDataInizio().plusDays(rnd));
             sd.save(manutenzione);
             System.out.println("Mezzo non più in manutenzione");
@@ -103,14 +101,14 @@ public class Mezzo {
 
     }
 
-    public void setInServizio(boolean inServizio,EntityManager em,int rnd) {
+    public void setInServizio(long mezzo_id, boolean inServizio, EntityManager em, int rnd) {
         this.inServizio = inServizio;
-        ServizioDao sd=new ServizioDao(em);
-        if(inServizio){
-            sd.save(new Servizio(LocalDateTime.now(),this));
+        ServizioDao sd = new ServizioDao(em);
+        if (inServizio) {
+            sd.save(new Servizio(LocalDateTime.now(), this));
             System.out.println("Mezzo in servizio");
-        }else {
-            Servizio servizio=sd.getServiceNull();
+        } else {
+            Servizio servizio = sd.getServiceNull(mezzo_id);
             servizio.setDataFine(servizio.getDataInizio().plusDays(rnd));
             sd.save(servizio);
             System.out.println("Mezzo non più in servizio");
@@ -126,8 +124,8 @@ public class Mezzo {
     }
 
     public void setUser(User user) throws Exception {
-       if(this.user.add(user)) System.out.println("Utente aggiunto");
-       else throw new Exception("Utente già sul mezzo");
+        if (this.user.add(user)) System.out.println("Utente aggiunto");
+        else throw new Exception("Utente già sul mezzo");
     }
 
     public Set<Ticket> getTickets() {
@@ -146,10 +144,11 @@ public class Mezzo {
         this.tratta.add(tratta);
     }
 
-    public void eliminaUtente(User user){
+    public void eliminaUtente(User user) {
         this.user.remove(user);
         System.out.println("Utente scaricato");
     }
+
     @Override
     public String toString() {
         return "Mezzo{" +
