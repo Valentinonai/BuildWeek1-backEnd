@@ -57,7 +57,7 @@ public class Application {
                             String email = scanner.nextLine();
                             System.out.println("inserisci password");
                             String password = scanner.nextLine();
-                            System.out.println("sei un amministratore?(1:true 2:fasle)");
+                            System.out.println("sei un amministratore?(1:true 2:false)");
                             int risp2 = Integer.parseInt(scanner.nextLine());
                             switch (risp2) {
                                 case 1: {
