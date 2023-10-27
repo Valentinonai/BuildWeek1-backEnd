@@ -1,6 +1,7 @@
 package BuildWeek1.Dao;
 
 import BuildWeek1.entities.VenditaBiglietto;
+import exceptions.VenditoreNotFoundException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -27,7 +28,12 @@ public class VenditaBigliettoDao {
     }
 
     public VenditaBiglietto getById(long id) {
-        return em.find(VenditaBiglietto.class, id);
+        VenditaBiglietto venditaB = em.find(VenditaBiglietto.class, id);
+        if (venditaB != null) {
+            return venditaB;
+        } else {
+            throw new VenditoreNotFoundException("Il venditore selezionato non esiste");
+        }
     }
 
     public void delete(long id) {
